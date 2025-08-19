@@ -39,5 +39,8 @@ function computeClassnames(element: string, ...mods: any): string {
  * @param block - BEM block name.
  */
 export function bem(block: string): [BlockFn, ElemFn] {
-  return [(...mods) => computeClassnames(block, mods), (elem, ...mods) => computeClassnames(`${block}__${elem}`, mods)];
+  return [
+    (...mods) => computeClassnames(block, mods),
+    (elem, ...mods) => computeClassnames(`${block}__${elem}`, mods),
+  ];
 }

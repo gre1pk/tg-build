@@ -1,9 +1,27 @@
-import { bindThemeParamsCssVars, bindViewportCssVars, emitEvent, init as initSDK, miniApp, mockTelegramEnv, mountBackButton, mountViewport, restoreInitData, retrieveLaunchParams, setDebug, type ThemeParams, themeParamsState } from '@telegram-apps/sdk-react';
+import {
+  bindThemeParamsCssVars,
+  bindViewportCssVars,
+  emitEvent,
+  init as initSDK,
+  miniApp,
+  mockTelegramEnv,
+  mountBackButton,
+  mountViewport,
+  restoreInitData,
+  retrieveLaunchParams,
+  setDebug,
+  type ThemeParams,
+  themeParamsState,
+} from '@telegram-apps/sdk-react';
 
 /**
  * Initializes the application and configures its dependencies.
  */
-export async function init(options: { debug: boolean; eruda: boolean; mockForMacOS: boolean }): Promise<void> {
+export async function init(options: {
+  debug: boolean;
+  eruda: boolean;
+  mockForMacOS: boolean;
+}): Promise<void> {
   // Set @telegram-apps/sdk-react debug mode and initialize it.
   setDebug(options.debug);
   initSDK();

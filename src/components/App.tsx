@@ -10,7 +10,10 @@ export function App() {
   const isDark = useSignal(isMiniAppDark);
 
   return (
-    <AppRoot appearance={isDark ? 'dark' : 'light'} platform={['macos', 'ios'].includes(lp.tgWebAppPlatform) ? 'ios' : 'base'}>
+    <AppRoot
+      appearance={isDark ? 'dark' : 'light'}
+      platform={['macos', 'ios'].includes(lp.tgWebAppPlatform) ? 'ios' : 'base'}
+    >
       <HashRouter>
         <Routes>
           {routes.map((route) => (

@@ -10,7 +10,10 @@ import './DisplayData.css';
 
 const [, e] = bem('display-data');
 
-export type DisplayDataRow = { title: string } & ({ type: 'link'; value?: string } | { value: ReactNode });
+export type DisplayDataRow = { title: string } & (
+  | { type: 'link'; value?: string }
+  | { value: ReactNode }
+);
 
 export interface DisplayDataProps {
   header?: ReactNode;

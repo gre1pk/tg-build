@@ -7,7 +7,13 @@ function ErrorBoundaryError({ error }: { error: unknown }) {
     <div>
       <p>An unhandled error occurred:</p>
       <blockquote>
-        <code>{error instanceof Error ? error.message : typeof error === 'string' ? error : JSON.stringify(error)}</code>
+        <code>
+          {error instanceof Error
+            ? error.message
+            : typeof error === 'string'
+              ? error
+              : JSON.stringify(error)}
+        </code>
       </blockquote>
     </div>
   );
