@@ -1,0 +1,21 @@
+{
+  "jsxBracketSameLine": false,
+  "htmlWhitespaceSensitivity": "ignore",
+  "singleQuote": true,
+  "endOfLine": "auto",
+  "printWidth": 100,
+  "trailingComma": "all",
+  "importOrder": [
+    "^react(.*)$",
+    "classnames",
+    "<THIRD_PARTY_MODULES>",
+    "^@(.*)$",
+    "^[./](?!.*\\.scss$)",
+    "^.+\\.scss$"
+  ],
+  "importOrderCaseInsensitive": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderSeparation": true,
+  "importOrderGroupNamespaceSpecifiers": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
+}

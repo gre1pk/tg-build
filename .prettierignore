@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Production
+public/
+dist/
+
+# Ignore test files, because they can be !sensitive! to import order
+# Changing the formatting (e.g., sorting imports)
+# in these files can break mocks or tests**/*.spec.ts
+**/*.spec.ts
+**/*.spec.tsx
+**/__specs__/**
+
+# Ignore files (Prettier has trouble parsing files without extension)
+.gitignore
+.prettierignore
+.eslintignore
+
+# rc, json and html files
+.prettierrc
+eslint/
+eslint.config.mjs
+
+# macOS
+.DS_Store
