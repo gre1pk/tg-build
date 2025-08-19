@@ -3,7 +3,7 @@
   "htmlWhitespaceSensitivity": "ignore",
   "singleQuote": true,
   "endOfLine": "auto",
-  "printWidth": 100,
+  "printWidth": 400,
   "trailingComma": "all",
   "importOrder": [
     "^react(.*)$",
