@@ -2,20 +2,17 @@ import type { FC } from 'react';
 
 import { classNames } from '@/css/classnames.ts';
 
-import { bem } from '@/css/bem.ts';
 import type { RGB as RGBType } from '@telegram-apps/sdk-react';
 
-import './RGB.css';
-
-const [b, e] = bem('rgb');
+import stales from './RGB.module.scss';
 
 export type RGBProps = JSX.IntrinsicElements['div'] & {
   color: RGBType;
 };
 
 export const RGB: FC<RGBProps> = ({ color, className, ...rest }) => (
-  <span {...rest} className={classNames(b(), className)}>
-    <i className={e('icon')} style={{ backgroundColor: color }} />
+  <span {...rest} className={classNames(stales.rgb, className)}>
+    <i className={stales.rgb__icon} style={{ backgroundColor: color }} />
     {color}
   </span>
 );
