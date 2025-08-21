@@ -5,7 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import react from '@vitejs/plugin-react-swc';
 
 export default defineConfig({
-  base: '/reactjs-template/',
+  base: '/',
   css: {
     preprocessorOptions: {
       scss: {
