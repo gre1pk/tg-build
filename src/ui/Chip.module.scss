@@ -1,0 +1,41 @@
+.chipRow {
+  display: flex;
+  gap: var(--app-space-xs);
+  overflow-x: auto;
+  padding: 0 var(--app-space) var(--app-space-sm);
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.chip {
+  flex-shrink: 0;
+  min-height: var(--app-touch-min);
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  background: var(--app-surface-2);
+  color: var(--tg-theme-text-color);
+  transition: background var(--app-duration) var(--app-ease-out);
+
+  @include focus-ring;
+
+  &:active:not(.chipActive) {
+    opacity: 0.88;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.chipActive {
+  background: var(--app-button-bg);
+  color: var(--app-button-text);
+}

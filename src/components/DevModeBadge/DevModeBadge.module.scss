@@ -1,0 +1,22 @@
+.badge {
+  position: fixed;
+  right: var(--app-space-sm);
+  bottom: var(--app-space-sm);
+  z-index: 100;
+  padding: var(--app-space-xs) var(--app-space-xs);
+  border-radius: var(--app-radius-xs);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.mock {
+  background: oklch(0.75 0.15 75);
+  color: oklch(0.2 0.02 55);
+}
+
+.live {
+  background: oklch(0.62 0.17 145);
+  color: #fff;
+}

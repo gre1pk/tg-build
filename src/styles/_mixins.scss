@@ -1,0 +1,20 @@
+// Shared SCSS mixins for CSS modules. Auto-injected via Vite (see vite.config.ts).
+// Design tokens live in global.scss as CSS custom properties — use var(--app-*) in modules.
+
+@mixin focus-ring($offset: 2px) {
+  &:focus-visible {
+    outline: 2px solid var(--app-focus-ring);
+    outline-offset: $offset;
+  }
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@mixin touch-target($min-height: var(--app-touch-min)) {
+  min-height: $min-height;
+}

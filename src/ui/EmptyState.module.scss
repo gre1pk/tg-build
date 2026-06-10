@@ -1,0 +1,25 @@
+.empty {
+  margin: var(--app-space) var(--app-space) var(--app-space-lg);
+  padding: var(--app-space-lg) var(--app-space);
+  text-align: center;
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-2);
+}
+
+.emptyTitle {
+  margin: 0 0 var(--app-space-xs);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.emptyText {
+  margin: 0 0 var(--app-space);
+  font-size: 0.875rem;
+  color: var(--tg-theme-hint-color);
+  line-height: 1.45;
+}
+
+.emptyAction {
+  width: 100%;
+  max-width: 280px;
+}

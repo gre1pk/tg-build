@@ -1,0 +1,62 @@
+.section {
+  margin: 0 var(--app-space) var(--app-space-xl);
+}
+
+.sectionPrimary {
+  margin-bottom: var(--app-space-2xl);
+
+  .sectionTitle {
+    font-size: 1.125rem;
+  }
+}
+
+.sectionTitle {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  margin: 0 0 var(--app-space-xs);
+  color: var(--tg-theme-text-color);
+}
+
+.sectionLink {
+  display: inline-block;
+  margin-top: var(--app-space-xs);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--tg-theme-link-color, var(--app-accent));
+  text-decoration: none;
+
+  @include focus-ring;
+}
+
+.sectionLead {
+  margin: 0 0 var(--app-space-sm);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--tg-theme-hint-color, oklch(0.45 0.02 55));
+  max-width: 40ch;
+}
+
+.sectionCta {
+  margin-top: var(--app-space-lg);
+  margin-bottom: var(--app-space-lg);
+  padding: var(--app-space-lg) var(--app-space);
+  border-radius: var(--app-radius);
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+
+  .sectionTitle {
+    font-size: 1.125rem;
+    margin-bottom: var(--app-space-xs);
+  }
+
+  .sectionLead {
+    margin-bottom: var(--app-space);
+    max-width: none;
+  }
+}
+
+.sectionCtaBtn {
+  width: 100%;
+  min-height: 52px;
+  font-size: 1.0625rem;
+}

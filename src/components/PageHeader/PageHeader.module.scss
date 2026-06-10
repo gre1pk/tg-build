@@ -1,0 +1,23 @@
+.header {
+  margin: 0 var(--app-space) var(--app-space-sm);
+}
+
+.compact {
+  margin-bottom: var(--app-space-xs);
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 var(--app-space-xs);
+  line-height: 1.25;
+  color: var(--tg-theme-text-color);
+}
+
+.lead {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--tg-theme-hint-color, oklch(0.45 0.02 55));
+  max-width: 40ch;
+}
