@@ -1,12 +1,12 @@
-const { handleAuthMe } = require('../lib/handlers.cjs');
+const { handleAuthTelegram } = require('../lib/handlers');
 
 module.exports = async function handler(req, res) {
-  if (req.method !== 'GET') {
+  if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const result = handleAuthMe(req.headers.authorization);
+    const result = handleAuthTelegram(req.body);
     return res.status(result.status).json(result.body);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Internal server error';

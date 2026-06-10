@@ -8,7 +8,7 @@ const {
   handleAuthTelegram,
   handleFabricById,
   handleFabricsList,
-} = require('./api/lib/handlers.cjs');
+} = require('./api/lib/handlers.js');
 
 async function readJsonBody(req: IncomingMessage): Promise<unknown> {
   const chunks: Buffer[] = [];

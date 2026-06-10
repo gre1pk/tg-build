@@ -1,6 +1,6 @@
-const { createSessionToken, verifySessionToken } = require('./jwt.cjs');
-const { getFabricById, loadFabrics } = require('./fabrics.cjs');
-const { validateInitData } = require('./validateInitData.cjs');
+const { createSessionToken, verifySessionToken } = require('./jwt');
+const { getFabricById, loadFabrics } = require('./fabrics');
+const { validateInitData } = require('./validateInitData');
 
 function getBotToken() {
   const token = process.env.TELEGRAM_BOT_TOKEN;

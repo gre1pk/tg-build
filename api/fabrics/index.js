@@ -1,4 +1,4 @@
-const { handleFabricsList } = require('../lib/handlers.cjs');
+const { handleFabricsList } = require('../lib/handlers');
 
 module.exports = function handler(req, res) {
   if (req.method !== 'GET') {
