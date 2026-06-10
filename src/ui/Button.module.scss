@@ -1,0 +1,42 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-height: var(--app-touch-min);
+  padding: 12px 20px;
+  border: none;
+  border-radius: var(--app-radius-sm);
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity var(--app-duration) var(--app-ease-out);
+
+  @include focus-ring;
+
+  &:active:not(:disabled) {
+    opacity: 0.88;
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.btnPrimary {
+  background: var(--app-button-bg);
+  color: var(--app-button-text);
+}
+
+.btnSecondary {
+  background: var(--app-surface-2);
+  color: var(--tg-theme-text-color);
+}

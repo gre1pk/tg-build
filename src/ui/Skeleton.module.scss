@@ -1,0 +1,79 @@
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.block {
+  background: linear-gradient(
+    90deg,
+    var(--tg-theme-secondary-bg-color, #ececec) 0%,
+    oklch(0.92 0.005 55) 50%,
+    var(--tg-theme-secondary-bg-color, #ececec) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    background: var(--tg-theme-secondary-bg-color, #ececec);
+  }
+}
+
+.square {
+  aspect-ratio: 1;
+  width: 100%;
+}
+
+.line {
+  height: 12px;
+  margin: 10px var(--app-space-sm) 0;
+  border-radius: var(--app-radius-xs);
+}
+
+.short {
+  width: 60%;
+}
+
+.card {
+  border-radius: var(--app-radius);
+  overflow: hidden;
+  background: var(--app-surface-2);
+  padding-bottom: var(--app-space-sm);
+}
+
+.hero {
+  margin: var(--app-space-xs) var(--app-space) var(--app-space-lg);
+  border-radius: var(--app-radius);
+  overflow: hidden;
+
+  .square {
+    aspect-ratio: 16 / 10;
+    max-height: 240px;
+  }
+}
+
+.previewLine {
+  margin-top: var(--app-space-xs);
+}
+
+.detailTitle {
+  height: 24px;
+  width: 70%;
+  margin-top: var(--app-space-lg);
+}
+
+.detailPrice {
+  margin-top: var(--app-space-sm);
+}
+
+.detailDesc {
+  margin-top: var(--app-space);
+}
+
+.orderLine {
+  margin: 0 var(--app-space);
+}

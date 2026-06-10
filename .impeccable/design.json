@@ -1,0 +1,256 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-10T12:00:00.000Z",
+  "title": "Design System: tg-build",
+  "extensions": {
+    "colorMeta": {
+      "accent-warm": {
+        "role": "primary",
+        "displayName": "Warm Craft Brown",
+        "canonical": "oklch(0.45 0.06 55)",
+        "tonalRamp": [
+          "oklch(0.15 0.04 55)",
+          "oklch(0.25 0.05 55)",
+          "oklch(0.32 0.055 55)",
+          "oklch(0.38 0.06 55)",
+          "oklch(0.45 0.06 55)",
+          "oklch(0.55 0.05 55)",
+          "oklch(0.70 0.04 55)",
+          "oklch(0.92 0.02 55)"
+        ]
+      },
+      "button-warm": {
+        "role": "primary",
+        "displayName": "Button Warm",
+        "canonical": "oklch(0.38 0.05 55)",
+        "tonalRamp": [
+          "oklch(0.12 0.03 55)",
+          "oklch(0.20 0.04 55)",
+          "oklch(0.28 0.045 55)",
+          "oklch(0.32 0.05 55)",
+          "oklch(0.38 0.05 55)",
+          "oklch(0.48 0.045 55)",
+          "oklch(0.62 0.04 55)",
+          "oklch(0.88 0.02 55)"
+        ]
+      },
+      "error": {
+        "role": "semantic",
+        "displayName": "Error Terracotta",
+        "canonical": "oklch(0.48 0.14 25)",
+        "tonalRamp": [
+          "oklch(0.18 0.10 25)",
+          "oklch(0.28 0.12 25)",
+          "oklch(0.35 0.13 25)",
+          "oklch(0.42 0.14 25)",
+          "oklch(0.48 0.14 25)",
+          "oklch(0.58 0.12 25)",
+          "oklch(0.72 0.08 25)",
+          "oklch(0.92 0.03 25)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Telegram Surface",
+        "canonical": "oklch(1 0 0)",
+        "tonalRamp": [
+          "oklch(0.15 0.01 55)",
+          "oklch(0.25 0.01 55)",
+          "oklch(0.35 0.01 55)",
+          "oklch(0.50 0.005 55)",
+          "oklch(0.65 0.005 55)",
+          "oklch(0.80 0.003 55)",
+          "oklch(0.92 0.002 55)",
+          "oklch(1 0 0)"
+        ]
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Telegram Surface Elevated",
+        "canonical": "oklch(0.97 0.002 55)",
+        "tonalRamp": [
+          "oklch(0.15 0.01 55)",
+          "oklch(0.25 0.01 55)",
+          "oklch(0.35 0.01 55)",
+          "oklch(0.50 0.005 55)",
+          "oklch(0.65 0.005 55)",
+          "oklch(0.80 0.003 55)",
+          "oklch(0.92 0.002 55)",
+          "oklch(0.97 0.002 55)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headline and fabric detail title only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page headers."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section titles and prominent CTAs."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Steps, descriptions, form copy. Max 65ch on long text."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Eyebrows, portfolio badges, fabric meta, field labels."
+      }
+    },
+    "shadows": [
+      {
+        "name": "button-ambient",
+        "value": "0 1px 2px color-mix(in oklch, var(--app-button-bg, oklch(0.38 0.05 55)) 8%, transparent)",
+        "purpose": "Outlined secondary hero CTA only — not for cards or primary buttons."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.25, 1, 0.5, 1)",
+        "purpose": "Default easing for opacity, transform, background transitions."
+      },
+      {
+        "name": "duration-fast",
+        "value": "0.18s",
+        "purpose": "Standard state transition duration."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "0px",
+        "purpose": "Mobile-first Telegram Mini App; no desktop-specific layout."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main CTA — заявка, переход в каталог, отправка формы.",
+      "html": "<button class=\"ds-btn-primary\">Оставить заявку</button>",
+      "css": ".ds-btn-primary { display: flex; align-items: center; justify-content: center; box-sizing: border-box; min-height: 44px; padding: 12px 20px; border: none; border-radius: 10px; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 1rem; font-weight: 600; background: var(--app-button-bg, oklch(0.38 0.05 55)); color: var(--app-button-text, #fff); cursor: pointer; transition: opacity 0.18s cubic-bezier(0.25, 1, 0.5, 1); } .ds-btn-primary:active:not(:disabled) { opacity: 0.88; } .ds-btn-primary:focus-visible { outline: 2px solid color-mix(in oklch, oklch(0.45 0.06 55) 45%, transparent); outline-offset: 2px; } .ds-btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Вторичное действие — каталог, назад к выбору.",
+      "html": "<button class=\"ds-btn-secondary\">Смотреть ткани</button>",
+      "css": ".ds-btn-secondary { display: flex; align-items: center; justify-content: center; box-sizing: border-box; min-height: 44px; padding: 12px 20px; border: none; border-radius: 10px; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 1rem; font-weight: 600; background: var(--app-surface-2, #f5f5f5); color: var(--tg-theme-text-color, #1a1a1a); cursor: pointer; transition: opacity 0.18s cubic-bezier(0.25, 1, 0.5, 1); } .ds-btn-secondary:active:not(:disabled) { opacity: 0.88; } .ds-btn-secondary:focus-visible { outline: 2px solid color-mix(in oklch, oklch(0.45 0.06 55) 45%, transparent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip-active",
+      "description": "Горизонтальный фильтр категорий тканей.",
+      "html": "<div style=\"display:flex;gap:8px;\"><button class=\"ds-chip ds-chip-active\">Все</button><button class=\"ds-chip\">Велюр</button></div>",
+      "css": ".ds-chip { flex-shrink: 0; min-height: 44px; padding: 10px 16px; border-radius: 999px; border: none; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 0.8125rem; font-weight: 500; cursor: pointer; background: var(--app-surface-2, #f5f5f5); color: var(--tg-theme-text-color, #1a1a1a); transition: background 0.18s cubic-bezier(0.25, 1, 0.5, 1); } .ds-chip-active { background: var(--app-button-bg, oklch(0.38 0.05 55)); color: var(--app-button-text, #fff); } .ds-chip:active:not(.ds-chip-active) { opacity: 0.88; } .ds-chip:focus-visible { outline: 2px solid color-mix(in oklch, oklch(0.45 0.06 55) 45%, transparent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Fabric Preview Card",
+      "kind": "card",
+      "refersTo": "button-secondary",
+      "description": "Карусель тканей на главной — 152px swatch с meta и ценой.",
+      "html": "<a href=\"#\" class=\"ds-fabric-card\"><div class=\"ds-fabric-image-wrap\"><img class=\"ds-fabric-image\" src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='152' height='152'%3E%3Crect fill='%23d4cfc7' width='152' height='152'/%3E%3C/svg%3E\" alt=\"\" /></div><p class=\"ds-fabric-name\">Велюр Milano</p><p class=\"ds-fabric-meta\">Велюр · бежевый</p><p class=\"ds-fabric-price\">от 2 400 ₽/м</p></a>",
+      "css": ".ds-fabric-card { flex: 0 0 152px; display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: inherit; border-radius: 10px; } .ds-fabric-image-wrap { aspect-ratio: 1; overflow: hidden; border-radius: 10px; background: #f5f5f5; border: 1px solid color-mix(in oklch, #999 22%, transparent); } .ds-fabric-image { width: 100%; height: 100%; object-fit: cover; display: block; } .ds-fabric-name { font-size: 0.8125rem; font-weight: 600; margin: 0; line-height: 1.3; color: #1a1a1a; } .ds-fabric-meta { margin: 0; font-size: 0.75rem; line-height: 1.35; color: #6b7280; } .ds-fabric-price { margin: 0; font-size: 0.8125rem; font-weight: 600; color: #1a1a1a; } .ds-fabric-card:active { opacity: 0.92; transform: scale(0.98); } .ds-fabric-card:focus-visible { outline: 2px solid color-mix(in oklch, oklch(0.45 0.06 55) 45%, transparent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Textarea Field",
+      "kind": "input",
+      "refersTo": "button-secondary",
+      "description": "Комментарий в форме заявки.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Комментарий</span><textarea class=\"ds-field-textarea\" rows=\"4\" placeholder=\"Опишите мебель…\"></textarea></label>",
+      "css": ".ds-field { display: block; } .ds-field-label { display: block; margin-bottom: 8px; font-family: system-ui, sans-serif; font-size: 0.9375rem; font-weight: 600; color: #1a1a1a; } .ds-field-textarea { width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1px solid color-mix(in oklch, #999 22%, transparent); border-radius: 10px; font-family: system-ui, sans-serif; font-size: 0.9375rem; line-height: 1.45; color: #1a1a1a; background: #fff; resize: vertical; min-height: 112px; } .ds-field-textarea:focus-visible { outline: 2px solid color-mix(in oklch, oklch(0.45 0.06 55) 45%, transparent); outline-offset: 0; border-color: transparent; }"
+    },
+    {
+      "name": "Photo Upload",
+      "kind": "input",
+      "refersTo": "button-primary",
+      "description": "Зона загрузки фото мебели в заявке.",
+      "html": "<div class=\"ds-photo-upload\" tabindex=\"0\"><span class=\"ds-photo-title\">Добавить фото</span><span class=\"ds-photo-meta\">JPG, PNG до 10 МБ</span></div>",
+      "css": ".ds-photo-upload { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 140px; padding: 16px; border-radius: 10px; border: 1.5px dashed color-mix(in oklch, oklch(0.38 0.05 55) 30%, color-mix(in oklch, #999 22%, transparent)); background: #f5f5f5; cursor: pointer; text-align: center; } .ds-photo-title { font-family: system-ui, sans-serif; font-size: 0.9375rem; font-weight: 600; color: oklch(0.38 0.05 55); } .ds-photo-meta { font-family: system-ui, sans-serif; font-size: 0.75rem; color: #6b7280; } .ds-photo-upload:active { opacity: 0.92; } .ds-photo-upload:focus-visible { outline: 2px solid color-mix(in oklch, oklch(0.45 0.06 55) 45%, transparent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Section CTA Panel",
+      "kind": "card",
+      "refersTo": "button-primary",
+      "description": "Выделенный блок с призывом к заявке внизу секции.",
+      "html": "<div class=\"ds-cta-panel\"><h3 class=\"ds-cta-title\">Готовы начать?</h3><p class=\"ds-cta-lead\">Пришлите фото мебели — подберём ткань и рассчитаем стоимость.</p><button class=\"ds-cta-btn\">Оставить заявку</button></div>",
+      "css": ".ds-cta-panel { padding: 24px 16px; border-radius: 14px; background: #f5f5f5; border: 1px solid color-mix(in oklch, #999 22%, transparent); } .ds-cta-title { font-family: system-ui, sans-serif; font-size: 1.125rem; font-weight: 600; margin: 0 0 8px; color: #1a1a1a; } .ds-cta-lead { font-family: system-ui, sans-serif; font-size: 0.875rem; line-height: 1.45; margin: 0 0 16px; color: #6b7280; } .ds-cta-btn { width: 100%; min-height: 52px; padding: 14px 24px; border: none; border-radius: 10px; font-family: system-ui, sans-serif; font-size: 1.0625rem; font-weight: 600; background: oklch(0.38 0.05 55); color: #fff; cursor: pointer; } .ds-cta-btn:active { opacity: 0.88; }"
+    },
+    {
+      "name": "Hero Eyebrow",
+      "kind": "custom",
+      "refersTo": "accent-warm",
+      "description": "Метка над hero-заголовком — ремесленный акцент.",
+      "html": "<span class=\"ds-eyebrow\">Перетяжка мебели</span>",
+      "css": ".ds-eyebrow { display: inline-block; font-family: system-ui, sans-serif; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 8px; border-radius: 6px; background: color-mix(in oklch, oklch(0.45 0.06 55) 14%, transparent); color: oklch(0.45 0.06 55); }"
+    },
+    {
+      "name": "Text Link",
+      "kind": "nav",
+      "refersTo": "accent-warm",
+      "description": "Вторичная навигация — контакт, смена фото.",
+      "html": "<button class=\"ds-text-link\">Написать в Telegram</button>",
+      "css": ".ds-text-link { margin: 0; padding: 0; border: none; background: none; font-family: system-ui, sans-serif; font-size: 0.8125rem; font-weight: 500; color: oklch(0.45 0.06 55); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; min-height: 44px; } .ds-text-link:focus-visible { outline: 2px solid color-mix(in oklch, oklch(0.45 0.06 55) 45%, transparent); outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Warm Workbench",
+    "overview": "Визуальная система tg-build — это спокойная мастерская, а не витрина интернет-магазина. Интерфейс ведёт себя как уверенный ремесленник: показывает текстуру и результат работы, не давит скидками и не имитирует корпоративный SaaS. Плотность умеренная — достаточно воздуха для фото тканей и портфолио, но без пустых «лендинговых» блоков.\n\nСистема строится на Telegram theme params: фон, текст и кнопки наследуют --tg-theme-*, а собственные токены дополняют их тёплым ремесленным характером. Глубина передаётся тональными слоями и тонкими границами, а не тяжёлыми тенями.",
+    "keyCharacteristics": [
+      "Telegram-native: theme params — первичный источник цвета",
+      "Фото и текстура — главный аргумент; swatch 152×152px",
+      "Плоские поверхности с тональным контрастом вместо drop-shadow",
+      "Крупные touch-зоны (минимум 44px), короткий путь к заявке",
+      "System UI sans — нейтральный, не конкурирует с фото работ"
+    ],
+    "rules": [
+      {
+        "name": "The Telegram First Rule",
+        "body": "Всегда читай --tg-theme-bg-color, --tg-theme-text-color, --tg-theme-button-color до собственных fallback. Mini App не должен выглядеть чужеродным внутри Telegram.",
+        "section": "colors"
+      },
+      {
+        "name": "The Texture Visibility Rule",
+        "body": "Превью ткани — минимум 152×152px. Меньше — запрещено: текстура — главный аргумент выбора материала.",
+        "section": "colors"
+      },
+      {
+        "name": "The Photo-First Rule",
+        "body": "Типографика никогда не конкурирует с изображением: заголовки компактные, lead-текст ограничен 34–40ch, описания — до 65ch.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Карточки, шаги, портфолио — flat at rest. Тень — исключение для outlined CTA, не паттерн по умолчанию.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do использовать --tg-theme-* как первичный источник цвета; fallback --app-* только когда theme param отсутствует.",
+      "Do показывать ткани крупно: preview 152px, grid-карточки aspect-ratio 1:1, meta + цена под каждым swatch.",
+      "Do держать touch targets ≥44px на всех интерактивных элементах.",
+      "Do уважать prefers-reduced-motion: отключать transition на кнопках, карточках, чипах.",
+      "Do вести к заявке коротким путём: hero CTA → /order или каталог → деталь → заявка.",
+      "Do использовать тёплый коричневый акцент для CTA и цен, не синий Telegram-default."
+    ],
+    "donts": [
+      "Don't оформлять как интернет-магазин мебели с ценниками «купить в 1 клик».",
+      "Don't использовать generic AI UI: фиолетовые градиенты, Inter + карточки в карточках.",
+      "Don't имитировать холодный корпоративный SaaS — никаких плотных data-table layout, серых sidebar-паттернов.",
+      "Don't делать превью тканей 48×48 — текстура должна быть видна (исключение: мини-summary выбранной ткани в форме заявки).",
+      "Don't добавлять тяжёлые box-shadow на карточки — если элемент «парит», тень слишком сильная.",
+      "Don't задавать собственные кремовые/beige фоны поверх Telegram theme — фон всегда из --tg-theme-bg-color.",
+      "Don't использовать декоративные шрифты или display-serif — system-ui only."
+    ]
+  }
+}

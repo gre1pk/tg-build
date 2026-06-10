@@ -1,0 +1,16 @@
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-sm);
+  margin: 0 var(--app-space) var(--app-space-lg);
+}
+
+.actionsSticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  margin-top: auto;
+  padding-top: var(--app-space);
+  padding-bottom: max(var(--app-space), env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, var(--app-surface) 70%, transparent);
+}

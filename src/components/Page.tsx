@@ -21,8 +21,12 @@ export function Page({
         navigate(-1);
       });
     }
+
     hideBackButton();
-  }, [back]);
+    return () => {
+      hideBackButton();
+    };
+  }, [back, navigate]);
 
   return <>{children}</>;
 }

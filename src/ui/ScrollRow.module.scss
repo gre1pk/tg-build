@@ -1,0 +1,16 @@
+.scrollRow {
+  display: flex;
+  gap: var(--app-space);
+  overflow-x: auto;
+  padding: 0 var(--app-space) var(--app-space-sm);
+  margin: 0 calc(var(--app-space) * -1);
+  padding-left: var(--app-space);
+  padding-right: var(--app-space);
+  scroll-padding-inline: var(--app-space);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
