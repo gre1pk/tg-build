@@ -1,5 +1,4 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import fabricsData from '../../data/fabrics.json';
 
 export interface FabricRecord {
   id: string;
@@ -12,17 +11,8 @@ export interface FabricRecord {
   petFriendly?: boolean;
 }
 
-let cachedFabrics: FabricRecord[] | null = null;
-
 export function loadFabrics(): FabricRecord[] {
-  if (cachedFabrics) {
-    return cachedFabrics;
-  }
-
-  const filePath = join(process.cwd(), 'data', 'fabrics.json');
-  const raw = readFileSync(filePath, 'utf8');
-  cachedFabrics = JSON.parse(raw) as FabricRecord[];
-  return cachedFabrics;
+  return fabricsData as FabricRecord[];
 }
 
 export function getFabricById(id: string): FabricRecord | null {

@@ -15,10 +15,22 @@ function getBotToken(): string {
   return token;
 }
 
+function parseRequestBody(body: unknown): unknown {
+  if (typeof body === 'string') {
+    try {
+      return JSON.parse(body) as unknown;
+    } catch {
+      return body;
+    }
+  }
+  return body;
+}
+
 export function handleAuthTelegram(body: unknown): ApiResult {
+  const parsed = parseRequestBody(body);
   const initData =
-    typeof body === 'object' && body !== null && 'initData' in body
-      ? (body as { initData?: unknown }).initData
+    typeof parsed === 'object' && parsed !== null && 'initData' in parsed
+      ? (parsed as { initData?: unknown }).initData
       : undefined;
 
   if (!initData || typeof initData !== 'string') {

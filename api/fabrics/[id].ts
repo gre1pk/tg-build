@@ -2,6 +2,10 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { handleFabricById } from '../lib/handlers';
 
+export const config = {
+  runtime: 'nodejs20.x',
+};
+
 export default function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
