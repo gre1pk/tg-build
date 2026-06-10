@@ -1,12 +1,6 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+const { handleAuthMe } = require('../lib/handlers.cjs');
 
-import { handleAuthMe } from '../lib/handlers';
-
-export const config = {
-  runtime: 'nodejs',
-};
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -18,4 +12,4 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const message = err instanceof Error ? err.message : 'Internal server error';
     return res.status(500).json({ error: message });
   }
-}
+};

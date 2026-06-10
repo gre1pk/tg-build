@@ -1,13 +1,8 @@
-import { createSessionToken, verifySessionToken, type SessionUser } from './jwt';
-import { getFabricById, loadFabrics } from './fabrics';
-import { validateInitData } from './validateInitData';
+const { createSessionToken, verifySessionToken } = require('./jwt.cjs');
+const { getFabricById, loadFabrics } = require('./fabrics.cjs');
+const { validateInitData } = require('./validateInitData.cjs');
 
-export interface ApiResult {
-  status: number;
-  body: unknown;
-}
-
-function getBotToken(): string {
+function getBotToken() {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   if (!token) {
     throw new Error('TELEGRAM_BOT_TOKEN is not configured');
@@ -15,10 +10,10 @@ function getBotToken(): string {
   return token;
 }
 
-function parseRequestBody(body: unknown): unknown {
+function parseRequestBody(body) {
   if (typeof body === 'string') {
     try {
-      return JSON.parse(body) as unknown;
+      return JSON.parse(body);
     } catch {
       return body;
     }
@@ -26,11 +21,11 @@ function parseRequestBody(body: unknown): unknown {
   return body;
 }
 
-export function handleAuthTelegram(body: unknown): ApiResult {
+function handleAuthTelegram(body) {
   const parsed = parseRequestBody(body);
   const initData =
     typeof parsed === 'object' && parsed !== null && 'initData' in parsed
-      ? (parsed as { initData?: unknown }).initData
+      ? parsed.initData
       : undefined;
 
   if (!initData || typeof initData !== 'string') {
@@ -41,7 +36,7 @@ export function handleAuthTelegram(body: unknown): ApiResult {
     const validated = validateInitData(initData, getBotToken());
     const { user } = validated;
     const uid = `tg_${user.id}`;
-    const sessionUser: SessionUser = {
+    const sessionUser = {
       uid,
       telegramId: user.id,
       firstName: user.first_name,
@@ -64,7 +59,7 @@ export function handleAuthTelegram(body: unknown): ApiResult {
   }
 }
 
-export function handleAuthMe(authHeader: string | undefined): ApiResult {
+function handleAuthMe(authHeader) {
   const token = authHeader?.replace(/^Bearer\s+/i, '');
   if (!token) {
     return { status: 401, body: { error: 'Missing authorization token' } };
@@ -78,14 +73,21 @@ export function handleAuthMe(authHeader: string | undefined): ApiResult {
   }
 }
 
-export function handleFabricsList(): ApiResult {
+function handleFabricsList() {
   return { status: 200, body: loadFabrics() };
 }
 
-export function handleFabricById(id: string): ApiResult {
+function handleFabricById(id) {
   const fabric = getFabricById(id);
   if (!fabric) {
     return { status: 404, body: { error: 'Fabric not found' } };
   }
   return { status: 200, body: fabric };
 }
+
+module.exports = {
+  handleAuthTelegram,
+  handleAuthMe,
+  handleFabricsList,
+  handleFabricById,
+};

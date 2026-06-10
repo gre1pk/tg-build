@@ -1,12 +1,6 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+const { handleFabricById } = require('../lib/handlers.cjs');
 
-import { handleFabricById } from '../lib/handlers';
-
-export const config = {
-  runtime: 'nodejs',
-};
-
-export default function handler(req: VercelRequest, res: VercelResponse) {
+module.exports = function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -18,4 +12,4 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
 
   const result = handleFabricById(id);
   return res.status(result.status).json(result.body);
-}
+};

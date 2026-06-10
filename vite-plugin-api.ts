@@ -1,5 +1,14 @@
+import { createRequire } from 'node:module';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Plugin } from 'vite';
+
+const require = createRequire(import.meta.url);
+const {
+  handleAuthMe,
+  handleAuthTelegram,
+  handleFabricById,
+  handleFabricsList,
+} = require('./api/lib/handlers.cjs');
 
 async function readJsonBody(req: IncomingMessage): Promise<unknown> {
   const chunks: Buffer[] = [];
@@ -19,13 +28,6 @@ function sendJson(res: ServerResponse, status: number, body: unknown) {
 }
 
 async function handleApiRequest(req: IncomingMessage, res: ServerResponse, pathname: string) {
-  const {
-    handleAuthMe,
-    handleAuthTelegram,
-    handleFabricById,
-    handleFabricsList,
-  } = await import('./api/lib/handlers');
-
   if (pathname === '/api/fabrics' && req.method === 'GET') {
     const result = handleFabricsList();
     sendJson(res, result.status, result.body);

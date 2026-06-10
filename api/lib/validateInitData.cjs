@@ -1,24 +1,6 @@
-import { createHmac, timingSafeEqual } from 'node:crypto';
+const { createHmac, timingSafeEqual } = require('crypto');
 
-interface TelegramUser {
-  id: number;
-  first_name: string;
-  last_name?: string;
-  username?: string;
-  language_code?: string;
-  is_premium?: boolean;
-  photo_url?: string;
-}
-
-export interface ValidatedInitData {
-  user: TelegramUser;
-  authDate: number;
-  queryId?: string;
-  chatInstance?: string;
-  chatType?: string;
-}
-
-export function validateInitData(initData: string, botToken: string): ValidatedInitData {
+function validateInitData(initData, botToken) {
   const params = new URLSearchParams(initData);
   const hash = params.get('hash');
 
@@ -39,7 +21,10 @@ export function validateInitData(initData: string, botToken: string): ValidatedI
   const hashBuffer = Buffer.from(hash, 'hex');
   const calculatedBuffer = Buffer.from(calculatedHash, 'hex');
 
-  if (hashBuffer.length !== calculatedBuffer.length || !timingSafeEqual(hashBuffer, calculatedBuffer)) {
+  if (
+    hashBuffer.length !== calculatedBuffer.length ||
+    !timingSafeEqual(hashBuffer, calculatedBuffer)
+  ) {
     throw new Error('Invalid init data hash');
   }
 
@@ -58,7 +43,7 @@ export function validateInitData(initData: string, botToken: string): ValidatedI
     throw new Error('Missing user in init data');
   }
 
-  const user = JSON.parse(userRaw) as TelegramUser;
+  const user = JSON.parse(userRaw);
 
   return {
     user,
@@ -68,3 +53,5 @@ export function validateInitData(initData: string, botToken: string): ValidatedI
     chatType: params.get('chat_type') ?? undefined,
   };
 }
+
+module.exports = { validateInitData };
