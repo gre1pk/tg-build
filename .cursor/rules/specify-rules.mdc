@@ -1,0 +1,19 @@
+---
+alwaysApply: true
+---
+
+<!-- SPECKIT START -->
+Для контекста по технологиям, структуре проекта, shell-командам и плану фичи читай
+текущий plan.md и `.specify/memory/constitution.md`.
+
+**Язык (SpecKit)**: все артефакты SpecKit — на **русском**:
+
+- `specs/**/spec.md`, `plan.md`, `tasks.md`, `research.md`, `data-model.md`
+- правки `.specify/memory/constitution.md` (новый текст — на русском)
+- требования, user stories, критерии приёмки, summary, обоснования
+
+На **английском**: идентификаторы кода, пути файлов, env, маршруты API, имена веток,
+npm-скрипты, блоки кода.
+
+Пользовательский копирайт в спеках (кнопки, ошибки, CTA) — **русский**.
+<!-- SPECKIT END -->
