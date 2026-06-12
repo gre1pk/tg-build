@@ -39,7 +39,23 @@ export async function signInMock(): Promise<UserProfile> {
   if (!profile) {
     throw new Error('No Telegram user in init data (check mockEnv.ts)');
   }
-  return profile;
+
+  const response = await fetch('/api/auth/dev', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ user: profile }),
+  });
+
+  const data = (await response.json()) as AuthTelegramResponse & { error?: string };
+
+  if (!response.ok) {
+    throw new Error(data.error ?? 'Dev authentication failed');
+  }
+
+  storeSession(data.token, data.user);
+  return data.user;
 }
 
 export async function restoreSession(): Promise<UserProfile | null> {
@@ -89,5 +105,5 @@ export async function signInWithTelegram(): Promise<UserProfile> {
 }
 
 export function isMockAuth(): boolean {
-  return env.useMockData;
+  return env.useMockAuth;
 }

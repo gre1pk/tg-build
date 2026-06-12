@@ -8,23 +8,25 @@
 
 - [x] React + Vite + TypeScript + Telegram SDK
 - [x] Переключение mock / real данных (`VITE_USE_MOCK_DATA`)
-- [x] Mock-репозиторий и API-репозиторий (`fabrics`)
-- [x] AuthProvider (mock + JWT через `/api/auth/telegram`)
+- [x] Mock-auth для локальной разработки (`/api/auth/dev`, `VITE_MOCK_TELEGRAM_ID`)
+- [x] Mock-репозиторий и API-репозиторий (`fabrics`, `portfolio`)
+- [x] AuthProvider (mock-auth в dev + JWT через `/api/auth/telegram` на проде)
 - [x] Vercel API: валидация initData + JWT-сессия
-- [x] Каталог тканей в `data/fabrics.json`
+- [x] Seed-каталог в `data/fabrics.json` (только для `npm run seed:supabase`)
 - [x] Страницы: главная, каталог тканей, карточка ткани, форма заявки
 - [x] `.env.example` и README
 - [x] Impeccable design skill + PRODUCT.md + DESIGN.md
 - [x] SCSS modules (`src/ui/`, `src/styles/global.scss`)
-- [x] UI: hero, каталог, портфолио (mock), шаги процесса, форма заявки
+- [x] UI: hero, каталог, портфолио, шаги процесса, форма заявки
 
 ---
 
 ## 1. Первый запуск и инфраструктура
 
 - [x] Проект подключён к Vercel (import из Git)
-- [ ] Заполнен `.env` из `.env.example` (локально)
-- [ ] `TELEGRAM_BOT_TOKEN` и `AUTH_JWT_SECRET` заданы в Vercel Environment Variables
+- [x] Локальный `.env` (секреты + Supabase)
+- [x] `TELEGRAM_BOT_TOKEN` и `AUTH_JWT_SECRET` на Vercel
+- [x] `SUPABASE_URL` и `SUPABASE_SERVICE_ROLE_KEY` на Vercel
 - [ ] Задан реальный `MASTER_TELEGRAM_USERNAME` в `src/config/brand.ts`
 - [x] Первый деплой на Vercel
 - [ ] Mini App URL настроен в BotFather
@@ -35,14 +37,14 @@
 
 ## 2. Данные и каталог тканей
 
-- [x] Тестовые ткани в `data/fabrics.json`
-- [x] Каталог читает данные из API в live-режиме (проверено в production)
-- [x] Mock-каталог для разработки (`src/data/mock/fabrics.ts`)
+- [x] Тестовые ткани засеяны в Supabase (`npm run seed:supabase`)
+- [x] Каталог читает данные из Supabase через API (production проверен)
+- [x] Mock-каталог для разработки (`src/data/mock/`)
 - [x] Фильтрация по материалу (чипы на странице каталога)
 - [ ] Поиск по названию
 - [ ] Пагинация / бесконечная прокрутка
-- [ ] Загрузка изображений (Supabase Storage — см. [docs/ADMIN.md](docs/ADMIN.md))
-- [ ] Админ-способ добавлять/редактировать ткани (см. раздел 11)
+- [x] Загрузка изображений тканей (Supabase Storage + `/api/admin/upload`)
+- [x] Админ: добавлять / редактировать / удалять ткани (см. раздел 11)
 
 ---
 
@@ -53,7 +55,7 @@
 - [x] Отправка в Telegram (готовый текст + Web Share API с фото)
 - [x] Защита от незаполненного username мастера
 - [ ] Сохранение заявок в БД (`orders`)
-- [ ] Загрузка фото на сервер (Vercel Blob / S3)
+- [ ] Загрузка фото заявки на сервер (не только Share API)
 - [ ] Уведомление мастеру о новой заявке (бот / API route)
 - [ ] Статусы заявки (новая → в работе → выполнена)
 
@@ -61,8 +63,9 @@
 
 ## 4. Портфолио и контент
 
-- [x] Блок «Примеры работ» на главной (mock Unsplash)
-- [ ] Реальные фото «до / после» с мастерской
+- [x] Блок «Примеры работ» на главной из API (`GET /api/portfolio`)
+- [x] Портфолио в Supabase (seed + админка)
+- [ ] Реальные фото «до / после» с мастерской (сейчас Unsplash из seed)
 - [x] DESIGN.md (визуальная спецификация для Impeccable)
 - [ ] Hero-изображение и тексты под реальный бренд
 
@@ -91,7 +94,9 @@
 
 - [ ] Rate limiting на `/api/auth/telegram`
 - [ ] Логирование ошибок (Sentry)
-- [ ] Защита админ-эндпоинтов для редактирования каталога
+- [x] Защита админ-эндпоинтов (`ADMIN_TELEGRAM_IDS` + JWT)
+- [x] `/api/auth/dev` только локально (не на Vercel)
+- [x] Один serverless-функция для всего API (`api/index.js`, лимит Hobby)
 
 ---
 
@@ -99,8 +104,10 @@
 
 - [ ] ESLint проходит без ошибок (`npm run lint`)
 - [x] Production build собирается (`npm run build`)
+- [x] Smoke-тест API на production (`curl /api/fabrics`, uuid из Supabase)
+- [ ] Smoke-тест админки на production (CRUD + upload)
 - [ ] Smoke-тест в mock-режиме (`npm run dev:mock`)
-- [ ] Smoke-тест в live-режиме (`npm run dev` + секреты в `.env`)
+- [ ] Smoke-тест в live-режиме (`npm run dev` + `.env`)
 - [ ] CI: lint + build на pull request
 - [ ] CI: деплой на Vercel (merge в main)
 - [ ] Версионирование релизов (CHANGELOG или git tags)
@@ -137,40 +144,43 @@
 
 ### Этап 1 — Supabase
 
-- [ ] Создан проект на [supabase.com](https://supabase.com)
-- [ ] Таблицы `fabrics`, `portfolio` (схема в ADMIN.md)
-- [ ] Buckets `fabric-images`, `portfolio-images` (public read)
-- [ ] Seed: импорт из `data/fabrics.json`
-- [ ] `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` на Vercel
+- [x] Создан проект на [supabase.com](https://supabase.com)
+- [x] Таблицы `fabrics`, `portfolio` (`supabase/schema.sql`)
+- [x] Buckets `fabric-images`, `portfolio-images` (public read)
+- [x] Seed: `npm run seed:supabase` из `data/fabrics.json`
+- [x] `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` на Vercel и в `.env`
 
 ### Этап 2 — Чтение из БД
 
-- [ ] `api/lib/supabase.js` (service role, только сервер)
-- [ ] GET `/api/fabrics`, `/api/fabrics/:id` → Supabase
-- [ ] GET `/api/portfolio` → Supabase
-- [ ] Главная: портфолио из API вместо mock
+- [x] `api/lib/supabase.js`, `api/lib/db.js` (service role, только сервер)
+- [x] GET `/api/fabrics`, `/api/fabrics/:id` → Supabase
+- [x] GET `/api/portfolio` → Supabase
+- [x] Главная: портфолио из API (не mock в live-режиме)
+- [x] Убран runtime-fallback на JSON (только Supabase на проде)
 
 ### Этап 3 — Защита админа
 
-- [ ] `ADMIN_TELEGRAM_IDS` в env (Vercel + `.env.example`)
-- [ ] `api/lib/adminAuth.js` — JWT + whitelist
-- [ ] 403 для не-админов на `/api/admin/*`
+- [x] `ADMIN_TELEGRAM_IDS` в env (Vercel + `.env`)
+- [x] `api/lib/adminAuth.js` — JWT + whitelist
+- [x] GET `/api/admin/me` — проверка прав на клиенте
+- [x] 403 для не-админов на `/api/admin/*`
 
 ### Этап 4 — Загрузка фото
 
-- [ ] POST `/api/admin/upload` → Supabase Storage → URL
-- [ ] Лимит размера / типа файла (jpg, png, webp)
+- [x] POST `/api/admin/upload` → Supabase Storage → URL
+- [x] Лимит размера (10 MB) и whitelist buckets
 
 ### Этап 5 — CRUD тканей
 
-- [ ] POST/PUT/DELETE `/api/admin/fabrics`
-- [ ] Страницы `/admin/fabrics`, `/admin/fabrics/new`, edit
-- [ ] Форма: фото + поля каталога
+- [x] POST/PUT/DELETE `/api/admin/fabrics`
+- [x] Страницы `/admin/fabrics`, `/admin/fabrics/new`, `/admin/fabrics/:id/edit`
+- [x] Форма: фото + поля каталога
 
 ### Этап 6 — CRUD портфолио
 
-- [ ] POST/PUT/DELETE `/api/admin/portfolio`
-- [ ] Страницы `/admin/portfolio`, форма до/после
+- [x] POST/PUT/DELETE `/api/admin/portfolio`
+- [x] Страницы `/admin/portfolio`, `/admin/portfolio/new`, edit
+- [x] Форма: фото до/после + подпись
 
 ### Этап 7 — (позже)
 
@@ -179,4 +189,4 @@
 
 ---
 
-_Последнее обновление: 2026-06-10_
+_Последнее обновление: 2026-06-12_

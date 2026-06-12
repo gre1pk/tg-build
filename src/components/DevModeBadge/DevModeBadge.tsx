@@ -9,9 +9,17 @@ export const DevModeBadge: FC = () => {
     return null;
   }
 
+  const label = env.useMockData
+    ? 'Mock data'
+    : env.useMockAuth
+      ? 'Live API · mock auth'
+      : 'Live';
+
   return (
-    <div className={`${styles.badge} ${env.useMockData ? styles.mock : styles.live}`}>
-      {env.useMockData ? 'Mock data' : 'Live'}
+    <div
+      className={`${styles.badge} ${env.useMockData || env.useMockAuth ? styles.mock : styles.live}`}
+    >
+      {label}
     </div>
   );
 };
