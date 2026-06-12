@@ -1,5 +1,7 @@
 import { emitEvent, isTMA, mockTelegramEnv } from '@telegram-apps/sdk-react';
 
+import { env } from '@/config/env';
+
 // It is important, to mock the environment only for development purposes. When building the
 // application, import.meta.env.DEV will become false, and the code inside will be tree-shaken,
 // so you will not see it in your final bundle.
@@ -66,7 +68,15 @@ if (import.meta.env.DEV) {
             ['auth_date', ((new Date().getTime() / 1000) | 0).toString()],
             ['hash', 'some-hash'],
             ['signature', 'some-signature'],
-            ['user', JSON.stringify({ id: 1, first_name: 'Vladislav' })],
+            [
+              'user',
+              JSON.stringify({
+                id: env.mockTelegramId,
+                first_name: 'Dev',
+                last_name: 'User',
+                username: 'dev_user',
+              }),
+            ],
           ]).toString(),
         ],
         ['tgWebAppVersion', '8.4'],

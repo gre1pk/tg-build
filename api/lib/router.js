@@ -18,6 +18,10 @@ async function routeApi({ method, pathname, authHeader, body }) {
     return handlers.handleAuthTelegram(body);
   }
 
+  if (pathname === '/api/auth/dev' && method === 'POST') {
+    return handlers.handleAuthDev(body);
+  }
+
   if (pathname === '/api/auth/me' && method === 'GET') {
     return handlers.handleAuthMe(authHeader);
   }

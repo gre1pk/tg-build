@@ -76,6 +76,43 @@ function handleAuthTelegram(body) {
   }
 }
 
+function isLocalDevRuntime() {
+  return process.env.VERCEL !== '1';
+}
+
+function handleAuthDev(body) {
+  if (!isLocalDevRuntime()) {
+    return { status: 404, body: { error: 'Not found' } };
+  }
+
+  const parsed = parseRequestBody(body);
+  const inputUser =
+    typeof parsed === 'object' && parsed !== null && 'user' in parsed ? parsed.user : parsed;
+
+  const telegramId = Number(inputUser?.telegramId ?? inputUser?.id);
+  if (!Number.isFinite(telegramId)) {
+    return { status: 400, body: { error: 'telegramId is required' } };
+  }
+
+  const sessionUser = {
+    uid: `tg_${telegramId}`,
+    telegramId,
+    firstName: String(inputUser?.firstName ?? inputUser?.first_name ?? 'Dev'),
+    lastName: inputUser?.lastName ?? inputUser?.last_name,
+    username: inputUser?.username,
+  };
+
+  const token = createSessionToken(sessionUser);
+
+  return {
+    status: 200,
+    body: {
+      token,
+      user: sessionUser,
+    },
+  };
+}
+
 function handleAuthMe(authHeader) {
   const token = authHeader?.replace(/^Bearer\s+/i, '');
   if (!token) {
@@ -252,6 +289,7 @@ async function handleAdminUpload(authHeader, body) {
 
 module.exports = {
   handleAuthTelegram,
+  handleAuthDev,
   handleAuthMe,
   handleAdminMe,
   handleFabricsList,
