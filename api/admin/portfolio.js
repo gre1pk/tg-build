@@ -1,17 +1,12 @@
-const { handleFabricById } = require('../lib/handlers');
+const { handleAdminCreatePortfolio } = require('../lib/handlers');
 
 module.exports = async function handler(req, res) {
-  if (req.method !== 'GET') {
+  if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const id = req.query.id;
-  if (!id || typeof id !== 'string') {
-    return res.status(400).json({ error: 'Fabric id is required' });
-  }
-
   try {
-    const result = await handleFabricById(id);
+    const result = await handleAdminCreatePortfolio(req.headers.authorization, req.body);
     return res.status(result.status).json(result.body);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Internal server error';

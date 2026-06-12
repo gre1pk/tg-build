@@ -12,6 +12,14 @@ export interface Fabric {
 /** @deprecated Use Fabric */
 export type Product = Fabric;
 
+export interface PortfolioItem {
+  id: string;
+  title: string;
+  beforeImageUrl: string;
+  afterImageUrl: string;
+  fabricName: string;
+}
+
 export interface UserProfile {
   uid: string;
   telegramId: number;

@@ -1,4 +1,4 @@
-import type { Fabric } from '@/data/types';
+import type { Fabric, PortfolioItem } from '@/data/types';
 import type { DataRepository } from '@/data/repository';
 
 async function fetchJson<T>(url: string): Promise<T> {
@@ -22,6 +22,10 @@ export function createApiRepository(): DataRepository {
       } catch {
         return null;
       }
+    },
+
+    async getPortfolio() {
+      return fetchJson<PortfolioItem[]>('/api/portfolio');
     },
   };
 }

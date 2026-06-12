@@ -64,6 +64,25 @@
   color: var(--app-error);
 }
 
+.fieldInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  font: inherit;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--tg-theme-text-color);
+  background: var(--app-surface);
+
+  &:focus-visible {
+    outline: 2px solid var(--app-focus-ring);
+    outline-offset: 0;
+    border-color: transparent;
+  }
+}
+
 .fieldTextarea {
   width: 100%;
   box-sizing: border-box;

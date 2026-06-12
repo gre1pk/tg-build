@@ -1,0 +1,72 @@
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-sm);
+  margin: 0 var(--app-space);
+}
+
+.navLink {
+  text-align: center;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-sm);
+  margin: 0 var(--app-space);
+  padding: 0;
+  list-style: none;
+}
+
+.listItem {
+  display: flex;
+  gap: var(--app-space-sm);
+  align-items: center;
+  padding: var(--app-space-sm);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+}
+
+.listThumb {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--app-radius-xs);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.listBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.listTitle {
+  margin: 0 0 2px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.listMeta {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--tg-theme-hint-color, #6b7280);
+}
+
+.listActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-xs);
+}
+
+.iconBtn {
+  min-height: 36px;
+  padding: 6px 10px;
+  font-size: 0.8125rem;
+}
+
+.topActions {
+  display: flex;
+  gap: var(--app-space-sm);
+  margin: 0 var(--app-space) var(--app-space);
+}

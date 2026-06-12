@@ -7,12 +7,12 @@ import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
 import { PortfolioCard } from '@/components/PortfolioCard/PortfolioCard';
 import { classNames } from '@/css/classnames';
-import { mockPortfolio } from '@/data/mock/portfolio';
 import {
   MasterContactNotConfiguredError,
   openMasterContact,
 } from '@/helpers/openMasterContact';
 import { useFabrics } from '@/hooks/useFabrics';
+import { usePortfolio } from '@/hooks/usePortfolio';
 import btn from '@/ui/Button.module.scss';
 import page from '@/ui/Page.module.scss';
 import scroll from '@/ui/ScrollRow.module.scss';
@@ -45,6 +45,7 @@ const STEPS = [
 export const HomePage: FC = () => {
   const { user, loading, error } = useAuth();
   const { fabrics, loading: fabricsLoading } = useFabrics();
+  const { items: portfolio, loading: portfolioLoading } = usePortfolio();
   const [contactError, setContactError] = useState<string | null>(null);
 
   const handleAskMaster = () => {
@@ -177,11 +178,26 @@ export const HomePage: FC = () => {
           <p className={section.sectionLead}>
             До и после перетяжки — так может выглядеть результат
           </p>
-          <div className={scroll.scrollRow}>
-            {mockPortfolio.map((item) => (
-              <PortfolioCard key={item.id} item={item} />
-            ))}
-          </div>
+          {portfolioLoading ? (
+            <div className={scroll.scrollRow} aria-hidden>
+              {[1, 2, 3].map((n) => (
+                <div key={n} className={sk.card} style={{ flex: '0 0 min(300px, 85vw)' }}>
+                  <div className={`${sk.block} ${sk.line}`} />
+                  <div className={`${sk.block} ${sk.square}`} style={{ marginTop: 8 }} />
+                </div>
+              ))}
+            </div>
+          ) : portfolio.length > 0 ? (
+            <div className={scroll.scrollRow}>
+              {portfolio.map((item) => (
+                <PortfolioCard key={item.id} item={item} />
+              ))}
+            </div>
+          ) : (
+            <p className={section.sectionLead}>
+              Примеры работ скоро появятся — пока можно посмотреть каталог тканей.
+            </p>
+          )}
         </section>
 
         <section className={section.section} aria-labelledby="steps-heading">

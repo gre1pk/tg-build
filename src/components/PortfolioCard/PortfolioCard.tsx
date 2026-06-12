@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { PortfolioItem } from '@/data/mock/portfolio';
+import type { PortfolioItem } from '@/data/types';
 import { classNames } from '@/css/classnames';
 
 import styles from './PortfolioCard.module.scss';
