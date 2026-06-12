@@ -1,10 +1,15 @@
 const { handleFabricsList } = require('../lib/handlers');
 
-module.exports = function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const result = handleFabricsList();
-  return res.status(result.status).json(result.body);
+  try {
+    const result = await handleFabricsList();
+    return res.status(result.status).json(result.body);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Internal server error';
+    return res.status(500).json({ error: message });
+  }
 };

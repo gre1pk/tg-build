@@ -1,10 +1,4 @@
-export interface PortfolioItem {
-  id: string;
-  title: string;
-  beforeImageUrl: string;
-  afterImageUrl: string;
-  fabricName: string;
-}
+import type { PortfolioItem } from '@/data/types';
 
 export const mockPortfolio: PortfolioItem[] = [
   {

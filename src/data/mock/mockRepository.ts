@@ -1,4 +1,5 @@
 import { mockFabrics } from '@/data/mock/fabrics';
+import { mockPortfolio } from '@/data/mock/portfolio';
 import type { DataRepository } from '@/data/repository';
 
 export function createMockRepository(): DataRepository {
@@ -11,6 +12,11 @@ export function createMockRepository(): DataRepository {
     async getFabric(id: string) {
       await delay(200);
       return mockFabrics.find((f) => f.id === id) ?? null;
+    },
+
+    async getPortfolio() {
+      await delay(200);
+      return [...mockPortfolio];
     },
   };
 }

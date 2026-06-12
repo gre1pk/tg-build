@@ -1,6 +1,18 @@
 const { createSessionToken, verifySessionToken } = require('./jwt');
-const { getFabricById, loadFabrics } = require('./fabrics');
 const { validateInitData } = require('./validateInitData');
+const { requireAdmin, checkAdminSession } = require('./adminAuth');
+const {
+  listFabrics,
+  getFabricById,
+  createFabric,
+  updateFabric,
+  deleteFabric,
+  listPortfolio,
+  createPortfolioItem,
+  updatePortfolioItem,
+  deletePortfolioItem,
+  uploadImage,
+} = require('./db');
 
 function getBotToken() {
   const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -19,6 +31,11 @@ function parseRequestBody(body) {
     }
   }
   return body;
+}
+
+function serverError(err) {
+  const message = err instanceof Error ? err.message : 'Internal server error';
+  return { status: 500, body: { error: message } };
 }
 
 function handleAuthTelegram(body) {
@@ -73,21 +90,178 @@ function handleAuthMe(authHeader) {
   }
 }
 
-function handleFabricsList() {
-  return { status: 200, body: loadFabrics() };
+function handleAdminMe(authHeader) {
+  const { isAdmin, user } = checkAdminSession(authHeader);
+  return { status: 200, body: { isAdmin, user } };
 }
 
-function handleFabricById(id) {
-  const fabric = getFabricById(id);
-  if (!fabric) {
-    return { status: 404, body: { error: 'Fabric not found' } };
+async function handleFabricsList() {
+  try {
+    const fabrics = await listFabrics();
+    return { status: 200, body: fabrics };
+  } catch (err) {
+    return serverError(err);
   }
-  return { status: 200, body: fabric };
+}
+
+async function handleFabricById(id) {
+  try {
+    const fabric = await getFabricById(id);
+    if (!fabric) {
+      return { status: 404, body: { error: 'Fabric not found' } };
+    }
+    return { status: 200, body: fabric };
+  } catch (err) {
+    return serverError(err);
+  }
+}
+
+async function handlePortfolioList() {
+  try {
+    const items = await listPortfolio();
+    return { status: 200, body: items };
+  } catch (err) {
+    return serverError(err);
+  }
+}
+
+async function handleAdminCreateFabric(authHeader, body) {
+  const auth = requireAdmin(authHeader);
+  if (!auth.ok) {
+    return { status: auth.status, body: { error: auth.error } };
+  }
+
+  try {
+    const parsed = parseRequestBody(body);
+    const fabric = await createFabric(parsed);
+    return { status: 201, body: fabric };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Failed to create fabric';
+    return { status: 400, body: { error: message } };
+  }
+}
+
+async function handleAdminUpdateFabric(authHeader, id, body) {
+  const auth = requireAdmin(authHeader);
+  if (!auth.ok) {
+    return { status: auth.status, body: { error: auth.error } };
+  }
+
+  try {
+    const parsed = parseRequestBody(body);
+    const fabric = await updateFabric(id, parsed);
+    if (!fabric) {
+      return { status: 404, body: { error: 'Fabric not found' } };
+    }
+    return { status: 200, body: fabric };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Failed to update fabric';
+    return { status: 400, body: { error: message } };
+  }
+}
+
+async function handleAdminDeleteFabric(authHeader, id) {
+  const auth = requireAdmin(authHeader);
+  if (!auth.ok) {
+    return { status: auth.status, body: { error: auth.error } };
+  }
+
+  try {
+    const deleted = await deleteFabric(id);
+    if (!deleted) {
+      return { status: 404, body: { error: 'Fabric not found' } };
+    }
+    return { status: 200, body: { ok: true } };
+  } catch (err) {
+    return serverError(err);
+  }
+}
+
+async function handleAdminCreatePortfolio(authHeader, body) {
+  const auth = requireAdmin(authHeader);
+  if (!auth.ok) {
+    return { status: auth.status, body: { error: auth.error } };
+  }
+
+  try {
+    const parsed = parseRequestBody(body);
+    const item = await createPortfolioItem(parsed);
+    return { status: 201, body: item };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Failed to create portfolio item';
+    return { status: 400, body: { error: message } };
+  }
+}
+
+async function handleAdminUpdatePortfolio(authHeader, id, body) {
+  const auth = requireAdmin(authHeader);
+  if (!auth.ok) {
+    return { status: auth.status, body: { error: auth.error } };
+  }
+
+  try {
+    const parsed = parseRequestBody(body);
+    const item = await updatePortfolioItem(id, parsed);
+    if (!item) {
+      return { status: 404, body: { error: 'Portfolio item not found' } };
+    }
+    return { status: 200, body: item };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Failed to update portfolio item';
+    return { status: 400, body: { error: message } };
+  }
+}
+
+async function handleAdminDeletePortfolio(authHeader, id) {
+  const auth = requireAdmin(authHeader);
+  if (!auth.ok) {
+    return { status: auth.status, body: { error: auth.error } };
+  }
+
+  try {
+    const deleted = await deletePortfolioItem(id);
+    if (!deleted) {
+      return { status: 404, body: { error: 'Portfolio item not found' } };
+    }
+    return { status: 200, body: { ok: true } };
+  } catch (err) {
+    return serverError(err);
+  }
+}
+
+async function handleAdminUpload(authHeader, body) {
+  const auth = requireAdmin(authHeader);
+  if (!auth.ok) {
+    return { status: auth.status, body: { error: auth.error } };
+  }
+
+  try {
+    const parsed = parseRequestBody(body);
+    const result = await uploadImage({
+      bucket: parsed.bucket,
+      fileName: parsed.fileName,
+      contentType: parsed.contentType,
+      dataBase64: parsed.dataBase64,
+    });
+    return { status: 200, body: result };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Upload failed';
+    return { status: 400, body: { error: message } };
+  }
 }
 
 module.exports = {
   handleAuthTelegram,
   handleAuthMe,
+  handleAdminMe,
   handleFabricsList,
   handleFabricById,
+  handlePortfolioList,
+  handleAdminCreateFabric,
+  handleAdminUpdateFabric,
+  handleAdminDeleteFabric,
+  handleAdminCreatePortfolio,
+  handleAdminUpdatePortfolio,
+  handleAdminDeletePortfolio,
+  handleAdminUpload,
 };

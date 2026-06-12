@@ -22,27 +22,27 @@
 
 ## 1. Первый запуск и инфраструктура
 
-- [ ] Проект подключён к Vercel (import из Git)
+- [x] Проект подключён к Vercel (import из Git)
 - [ ] Заполнен `.env` из `.env.example` (локально)
 - [ ] `TELEGRAM_BOT_TOKEN` и `AUTH_JWT_SECRET` заданы в Vercel Environment Variables
 - [ ] Задан реальный `MASTER_TELEGRAM_USERNAME` в `src/config/brand.ts`
-- [ ] Первый деплой на Vercel
+- [x] Первый деплой на Vercel
 - [ ] Mini App URL настроен в BotFather
-- [ ] Приложение открывается в Telegram (не только в браузере)
-- [ ] Авторизация через реальный initData работает в production
+- [x] Приложение открывается в Telegram (не только в браузере)
+- [x] Авторизация через реальный initData работает в production
 
 ---
 
 ## 2. Данные и каталог тканей
 
 - [x] Тестовые ткани в `data/fabrics.json`
-- [ ] Каталог читает данные из API в live-режиме (проверено в production)
+- [x] Каталог читает данные из API в live-режиме (проверено в production)
 - [x] Mock-каталог для разработки (`src/data/mock/fabrics.ts`)
 - [x] Фильтрация по материалу (чипы на странице каталога)
 - [ ] Поиск по названию
 - [ ] Пагинация / бесконечная прокрутка
-- [ ] Загрузка изображений (CDN / Vercel Blob)
-- [ ] Админ-способ добавлять/редактировать ткани
+- [ ] Загрузка изображений (Supabase Storage — см. [docs/ADMIN.md](docs/ADMIN.md))
+- [ ] Админ-способ добавлять/редактировать ткани (см. раздел 11)
 
 ---
 
@@ -128,7 +128,54 @@
 
 - [ ] Чат с исполнителем в приложении vs только Telegram
 - [ ] Интеграция отзывов с модерацией
-- [ ] 
+
+---
+
+## 11. Админка (Supabase)
+
+Полный план: **[docs/ADMIN.md](docs/ADMIN.md)** — Supabase + `/admin` + `ADMIN_TELEGRAM_IDS`.
+
+### Этап 1 — Supabase
+
+- [ ] Создан проект на [supabase.com](https://supabase.com)
+- [ ] Таблицы `fabrics`, `portfolio` (схема в ADMIN.md)
+- [ ] Buckets `fabric-images`, `portfolio-images` (public read)
+- [ ] Seed: импорт из `data/fabrics.json`
+- [ ] `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` на Vercel
+
+### Этап 2 — Чтение из БД
+
+- [ ] `api/lib/supabase.js` (service role, только сервер)
+- [ ] GET `/api/fabrics`, `/api/fabrics/:id` → Supabase
+- [ ] GET `/api/portfolio` → Supabase
+- [ ] Главная: портфолио из API вместо mock
+
+### Этап 3 — Защита админа
+
+- [ ] `ADMIN_TELEGRAM_IDS` в env (Vercel + `.env.example`)
+- [ ] `api/lib/adminAuth.js` — JWT + whitelist
+- [ ] 403 для не-админов на `/api/admin/*`
+
+### Этап 4 — Загрузка фото
+
+- [ ] POST `/api/admin/upload` → Supabase Storage → URL
+- [ ] Лимит размера / типа файла (jpg, png, webp)
+
+### Этап 5 — CRUD тканей
+
+- [ ] POST/PUT/DELETE `/api/admin/fabrics`
+- [ ] Страницы `/admin/fabrics`, `/admin/fabrics/new`, edit
+- [ ] Форма: фото + поля каталога
+
+### Этап 6 — CRUD портфолио
+
+- [ ] POST/PUT/DELETE `/api/admin/portfolio`
+- [ ] Страницы `/admin/portfolio`, форма до/после
+
+### Этап 7 — (позже)
+
+- [ ] Таблица `orders`, сохранение заявок
+- [ ] Уведомление мастеру о новой заявке
 
 ---
 

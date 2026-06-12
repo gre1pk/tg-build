@@ -2,7 +2,7 @@
 
 Telegram Mini App для студии перетяжки мебели: React + Vite на фронте, Vercel Serverless API для auth и каталога тканей.
 
-**Чек-лист развития проекта:** [CHECKLIST.md](CHECKLIST.md)
+**Чек-лист:** [CHECKLIST.md](CHECKLIST.md) · **План админки (Supabase):** [docs/ADMIN.md](docs/ADMIN.md)
 
 ## Дизайн (Impeccable)
 
@@ -12,7 +12,7 @@ Telegram Mini App для студии перетяжки мебели: React + V
 
 - **Frontend:** React 18, TypeScript, Vite, `@telegram-apps/sdk-react`, `@telegram-apps/telegram-ui`
 - **Backend:** Vercel Serverless Functions (`/api/*`)
-- **Данные:** `data/fabrics.json` (каталог тканей)
+- **Данные:** `data/fabrics.json` (каталог; позже — [Supabase + админка](docs/ADMIN.md))
 - **Auth:** валидация Telegram `initData` на сервере → JWT-сессия
 
 ## Быстрый старт (локально с моками)
@@ -91,19 +91,16 @@ npm run dev:mock
 ## Структура проекта
 
 ```
-api/
-  auth/telegram.ts    # POST initData → JWT
-  auth/me.ts          # GET проверка сессии
+api/                  # Vercel Serverless (CommonJS, api/package.json)
+  auth/               # telegram.js, me.js
   fabrics/            # GET каталог
-  lib/                # validateInitData, jwt, handlers
+  lib/                # handlers, jwt, validateInitData
 data/
-  fabrics.json        # каталог тканей
+  fabrics.json        # каталог (до миграции в Supabase)
+docs/
+  ADMIN.md            # план админки: Supabase + /admin
 src/
-  auth/               # AuthProvider, session, signInWithTelegram
-  data/
-    api/              # apiRepository
-    mock/             # mock-репозиторий
-  pages/              # HomePage, FabricsPage, FabricDetailPage, OrderRequestPage
+  pages/              # HomePage, FabricsPage, … (admin — в roadmap)
 ```
 
 ## API
