@@ -1,11 +1,11 @@
 import { type FC, useState } from 'react';
 
 import { useAuth } from '@/auth/useAuth';
+import { AppHeader } from '@/components/AppHeader/AppHeader';
 import { FabricGridSkeleton } from '@/components/FabricGridSkeleton/FabricGridSkeleton';
 import { FabricPreviewCard } from '@/components/FabricPreviewCard/FabricPreviewCard';
 import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
-import { StaffEntryButton } from '@/components/StaffEntryButton/StaffEntryButton';
 import { PortfolioCard } from '@/components/PortfolioCard/PortfolioCard';
 import { isMasterContactConfigured } from '@/config/brand';
 import { classNames } from '@/css/classnames';
@@ -64,6 +64,7 @@ export const HomePage: FC = () => {
     return (
       <Page back={false}>
         <div className={page.page}>
+          <AppHeader variant="full" />
           <div className={sk.hero}>
             <div className={`${sk.block} ${sk.square}`} />
           </div>
@@ -90,7 +91,7 @@ export const HomePage: FC = () => {
   return (
     <Page back={false}>
       <div className={page.page}>
-        <StaffEntryButton />
+        <AppHeader variant="full" />
         <section className={home.hero} aria-label="Перетяжка мебели">
           <figure className={home.heroMedia}>
             <img
@@ -104,7 +105,6 @@ export const HomePage: FC = () => {
             />
           </figure>
           <div className={home.heroContent}>
-            <p className={home.heroEyebrow}>Ручная перетяжка</p>
             <h1 className={home.heroTitle}>{greeting}</h1>
             <p className={home.heroSubtitle}>
               Подберём ткань и вернём мебели аккуратный вид — без долгих звонков и объяснений

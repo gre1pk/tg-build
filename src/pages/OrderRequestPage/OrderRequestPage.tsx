@@ -1,10 +1,10 @@
 import { type ChangeEvent, type FC, type FormEvent, useId, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import { AppHeader } from '@/components/AppHeader/AppHeader';
 import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
-import { StaffEntryButton } from '@/components/StaffEntryButton/StaffEntryButton';
 import { classNames } from '@/css/classnames';
 import { submitOrderRequest } from '@/helpers/submitOrderRequest';
 import { useFabric } from '@/hooks/useFabrics';
@@ -113,6 +113,7 @@ export const OrderRequestPage: FC = () => {
     return (
       <Page>
         <div className={page.page}>
+          <AppHeader />
           <PageHeader title="Заявка на перетяжку" lead="Загружаем выбранную ткань…" />
           <div className={`${sk.block} ${sk.line} ${sk.orderLine}`} />
         </div>
@@ -124,6 +125,7 @@ export const OrderRequestPage: FC = () => {
     return (
       <Page>
         <div className={page.page}>
+          <AppHeader />
           <PageHeader title="Заявка на перетяжку" />
           <div className={empty.empty}>
             <p className={empty.emptyTitle}>Ткань не найдена</p>
@@ -147,13 +149,14 @@ export const OrderRequestPage: FC = () => {
     return (
       <Page>
         <div className={page.page}>
+          <AppHeader />
           <PageHeader title="Заявка на перетяжку" />
           <div className={empty.empty}>
             <p className={form.success} role="status">
               Заявка сохранена
             </p>
             <p className={empty.emptyText}>
-              Мастер увидит её в админке и свяжется с вами при необходимости.
+              Мастер увидит её и свяжется с вами.
             </p>
             <Link to="/" className={classNames(btn.btn, btn.btnPrimary, empty.emptyAction)}>
               На главную
@@ -167,11 +170,11 @@ export const OrderRequestPage: FC = () => {
   return (
     <Page>
       <div className={classNames(page.page, page.pageForm)}>
+        <AppHeader />
         <PageHeader
           title="Заявка на перетяжку"
           lead="Добавьте фото мебели или комментарий — заявка сохранится, мастер увидит её в админке."
         />
-        <StaffEntryButton />
 
         <form className={form.orderForm} onSubmit={handleSubmit} noValidate>
           {fabric && (

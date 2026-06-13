@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { AppHeader } from '@/components/AppHeader/AppHeader';
 import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
-import { StaffEntryButton } from '@/components/StaffEntryButton/StaffEntryButton';
 import { classNames } from '@/css/classnames';
 import { formatPricePerMeter } from '@/helpers/formatPrice';
 import { useFabric } from '@/hooks/useFabrics';
@@ -24,6 +24,7 @@ export const FabricDetailPage: FC = () => {
     return (
       <Page>
         <div className={page.page}>
+          <AppHeader />
           <div className={`${sk.block} ${sk.square} ${detail.image}`} />
           <div className={detail.body}>
             <div className={`${sk.block} ${sk.line} ${sk.detailTitle}`} />
@@ -51,7 +52,7 @@ export const FabricDetailPage: FC = () => {
   return (
     <Page>
       <div className={classNames(page.page, page.pageDetail)}>
-        <StaffEntryButton />
+        <AppHeader />
         <img
           src={fabric.imageUrl}
           alt={`Образец ткани ${fabric.name}, ${fabric.color}`}
