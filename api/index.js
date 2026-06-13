@@ -40,6 +40,7 @@ module.exports = async function handler(req, res) {
       authHeader: req.headers.authorization,
       body: req.body,
       query,
+      headers: req.headers,
     });
     return res.status(result.status).json(result.body);
   } catch (err) {

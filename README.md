@@ -57,6 +57,29 @@ npm run dev:mock
 2. `/newapp` → URL Vercel (например `https://your-app.vercel.app`)
 3. Токен бота — только в `TELEGRAM_BOT_TOKEN` на Vercel / в `.env` локально
 
+### Приветствие на `/start`
+
+После деплоя зарегистрируйте webhook (один раз):
+
+```bash
+# Секрет опционален, но рекомендуется (openssl rand -hex 16)
+export TELEGRAM_BOT_TOKEN=...
+export APP_BASE_URL=https://your-app.vercel.app
+export TELEGRAM_WEBHOOK_SECRET=your_random_secret
+
+curl -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/setWebhook" \
+  -H "Content-Type: application/json" \
+  -d "{\"url\":\"${APP_BASE_URL}/api/telegram/webhook\",\"secret_token\":\"${TELEGRAM_WEBHOOK_SECRET}\",\"allowed_updates\":[\"message\"]}"
+```
+
+Добавьте `TELEGRAM_WEBHOOK_SECRET` в env на Vercel (тот же, что в `setWebhook`).
+
+Пользователь нажимает **Start** в чате с ботом → приходит сообщение с инструкцией и кнопкой **«Открыть приложение»** (Mini App).
+
+Проверка webhook: `curl "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getWebhookInfo"`
+
+Локально webhook не работает без туннеля (ngrok и т.п.) — тестируйте на staging/production.
+
 ## Каталог тканей
 
 Источник данных: [`data/fabrics.json`](data/fabrics.json).

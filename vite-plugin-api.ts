@@ -39,6 +39,7 @@ async function handleApiRequest(req: IncomingMessage, res: ServerResponse, url: 
     authHeader: req.headers.authorization,
     body,
     query,
+    headers: req.headers,
   });
 
   sendJson(res, result.status, result.body);

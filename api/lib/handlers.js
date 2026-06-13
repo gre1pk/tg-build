@@ -18,6 +18,7 @@ const {
   deleteOrderPhoto,
 } = require('./db');
 const { notifyMasterNewOrder } = require('./telegramNotify');
+const { handleTelegramWebhook } = require('./telegramWebhook');
 
 function getBotToken() {
   const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -472,7 +473,12 @@ async function handleAdminDeleteOrderPhoto(authHeader, id) {
   }
 }
 
+async function handleTelegramWebhookRoute(body, secretHeader) {
+  return handleTelegramWebhook(body, secretHeader);
+}
+
 module.exports = {
+  handleTelegramWebhook: handleTelegramWebhookRoute,
   handleAuthTelegram,
   handleAuthDev,
   handleAuthMe,
