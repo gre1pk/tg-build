@@ -28,6 +28,16 @@ export interface UserProfile {
   username?: string;
 }
 
+export type StaffRole = 'admin' | 'master';
+
+export interface StaffMeResponse {
+  role: StaffRole | null;
+  isStaff: boolean;
+  /** @deprecated use isStaff */
+  isAdmin: boolean;
+  user: UserProfile | null;
+}
+
 export type OrderStatus = 'new' | 'in_progress' | 'done' | 'cancelled';
 
 export interface Order {

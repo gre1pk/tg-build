@@ -1,6 +1,6 @@
 # Research: Заявки в Supabase
 
-**Фича**: `001-orders-db` | **Дата**: 2026-06-13 | **Обновлено**: post-clarify
+**Фича**: `001-orders-db` | **Дата**: 2026-06-13 | **Обновлено**: post-implement (P4)
 
 ## R1: Хранение фото заявки
 
@@ -94,12 +94,13 @@
 
 **Rationale**: Telegram message требует абсолютный URL; hash-route `/#/admin/orders` для SPA.
 
-## R10: Очистка фото заявок (P4, план)
+## R10: Очистка фото заявок (P4)
 
-**Decision**: ручное удаление фото **только в архиве** (`done`, `cancelled`); не авто при смене статуса.
+**Decision**: ручное удаление фото **только в архиве** (`done`, `cancelled`); не авто при смене статуса. API: `DELETE /api/admin/orders/:id/photo` — parse path из public URL (`/storage/v1/object/public/order-images/...`), `storage.remove`, `photo_url = null`. UI: confirm перед удалением.
 
 **Rationale**: мастер может ещё смотреть фото на активной заявке; в архиве фото реже нужно; освобождает Supabase Storage (1 GB free tier).
 
 **Alternatives considered**:
 - Авто-delete при `done` — риск потерять превью, если мастер вернётся к заявке.
 - Удаление всей заявки — не запрашивалось; нужна история текстов/метаданных.
+- `PATCH { deletePhoto: true }` — выбран отдельный DELETE для явной семантики REST.

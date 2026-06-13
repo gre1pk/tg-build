@@ -5,6 +5,7 @@ import { FabricGridSkeleton } from '@/components/FabricGridSkeleton/FabricGridSk
 import { Link } from '@/components/Link/Link';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
 import { Page } from '@/components/Page';
+import { StaffEntryButton } from '@/components/StaffEntryButton/StaffEntryButton';
 import { classNames } from '@/css/classnames';
 import { useFabrics } from '@/hooks/useFabrics';
 import btn from '@/ui/Button.module.scss';
@@ -69,6 +70,7 @@ export const FabricsPage: FC = () => {
   return (
     <Page>
       <div className={page.page}>
+        <StaffEntryButton />
         <PageHeader
           title="Каталог тканей"
           lead="Крупные образцы — оцените фактуру и оттенок перед выбором"

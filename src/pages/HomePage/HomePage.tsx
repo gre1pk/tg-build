@@ -1,16 +1,16 @@
 import { type FC, useState } from 'react';
 
 import { useAuth } from '@/auth/useAuth';
+import { BeforeAfterCompare } from '@/components/BeforeAfterCompare/BeforeAfterCompare';
 import { FabricGridSkeleton } from '@/components/FabricGridSkeleton/FabricGridSkeleton';
 import { FabricPreviewCard } from '@/components/FabricPreviewCard/FabricPreviewCard';
 import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
+import { StaffEntryButton } from '@/components/StaffEntryButton/StaffEntryButton';
 import { PortfolioCard } from '@/components/PortfolioCard/PortfolioCard';
+import { isMasterContactConfigured } from '@/config/brand';
 import { classNames } from '@/css/classnames';
-import {
-  MasterContactNotConfiguredError,
-  openMasterContact,
-} from '@/helpers/openMasterContact';
+import { MasterContactOpenError, openMasterContact } from '@/helpers/openMasterContact';
 import { useFabrics } from '@/hooks/useFabrics';
 import { usePortfolio } from '@/hooks/usePortfolio';
 import btn from '@/ui/Button.module.scss';
@@ -21,11 +21,9 @@ import sk from '@/ui/Skeleton.module.scss';
 import textLink from '@/ui/TextLink.module.scss';
 import { Placeholder } from '@telegram-apps/telegram-ui';
 
+import { HERO_AFTER_IMAGE, HERO_BEFORE_IMAGE } from '@/content/marketingImagery';
 import preview from '@/components/FabricPreviewCard/FabricPreviewCard.module.scss';
 import home from './HomePage.module.scss';
-
-const HERO_IMAGE =
-  'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80';
 
 const STEPS = [
   {
@@ -48,13 +46,15 @@ export const HomePage: FC = () => {
   const { items: portfolio, loading: portfolioLoading } = usePortfolio();
   const [contactError, setContactError] = useState<string | null>(null);
 
+  const masterContactAvailable = isMasterContactConfigured();
+
   const handleAskMaster = () => {
     setContactError(null);
     try {
       openMasterContact('Здравствуйте! Хочу перетянуть мебель. Подскажите, с чего начать?');
     } catch (error) {
-      if (error instanceof MasterContactNotConfiguredError) {
-        setContactError('Контакт мастера ещё не настроен. Пока оставьте заявку через форму.');
+      if (error instanceof MasterContactOpenError) {
+        setContactError(error.message);
         return;
       }
       throw error;
@@ -79,7 +79,7 @@ export const HomePage: FC = () => {
       <Page back={false}>
         <Placeholder
           header="Не удалось войти"
-          description="Закройте приложение и откройте его снова из Telegram. Если ошибка повторится, напишите мастеру."
+          description="Закройте приложение и откройте его снова из Telegram. Если ошибка повторится, попробуйте позже или оставьте заявку через форму."
         />
       </Page>
     );
@@ -91,16 +91,19 @@ export const HomePage: FC = () => {
   return (
     <Page back={false}>
       <div className={page.page}>
+        <StaffEntryButton />
         <section className={home.hero} aria-label="Перетяжка мебели">
-          <img
-            src={HERO_IMAGE}
-            alt="Интерьер с мягкой мебелью и текстилем"
-            className={home.heroImage}
-            width={800}
-            height={480}
+          <BeforeAfterCompare
+            beforeImageUrl={HERO_BEFORE_IMAGE}
+            afterImageUrl={HERO_AFTER_IMAGE}
+            beforeAlt="Изношенное кресло до перетяжки"
+            afterAlt="Обновлённый диван после перетяжки"
+            variant="hero"
+            imageWidth={400}
+            imageHeight={300}
           />
           <div className={home.heroContent}>
-            <p className={home.heroEyebrow}>Перетяжка мебели</p>
+            <p className={home.heroEyebrow}>Ручная перетяжка</p>
             <h1 className={home.heroTitle}>{greeting}</h1>
             <p className={home.heroSubtitle}>
               Подберём ткань и вернём мебели аккуратный вид — без долгих звонков и объяснений
@@ -121,13 +124,15 @@ export const HomePage: FC = () => {
           >
             Оставить заявку
           </Link>
-          <button
-            type="button"
-            className={classNames(textLink.textLink, home.heroContactLink)}
-            onClick={handleAskMaster}
-          >
-            Задать вопрос в Telegram
-          </button>
+          {masterContactAvailable && (
+            <button
+              type="button"
+              className={classNames(textLink.textLink, home.heroContactLink)}
+              onClick={handleAskMaster}
+            >
+              Задать вопрос в Telegram
+            </button>
+          )}
           {contactError && (
             <p className={home.heroContactError} role="alert">
               {contactError}
@@ -166,7 +171,11 @@ export const HomePage: FC = () => {
             </>
           ) : (
             <p className={section.sectionLead}>
-              Каталог скоро появится — пока можно написать мастеру.
+              Каталог скоро появится —{' '}
+              <Link to="/order" className={section.sectionLink}>
+                оставьте заявку через форму
+              </Link>
+              .
             </p>
           )}
         </section>
@@ -176,22 +185,27 @@ export const HomePage: FC = () => {
             Примеры работ
           </h2>
           <p className={section.sectionLead}>
-            До и после перетяжки — так может выглядеть результат
+            Сравнение «до / после» — так выглядит перетяжка на практике
           </p>
           {portfolioLoading ? (
-            <div className={scroll.scrollRow} aria-hidden>
-              {[1, 2, 3].map((n) => (
-                <div key={n} className={sk.card} style={{ flex: '0 0 min(300px, 85vw)' }}>
-                  <div className={`${sk.block} ${sk.line}`} />
-                  <div className={`${sk.block} ${sk.square}`} style={{ marginTop: 8 }} />
-                </div>
-              ))}
+            <div className={home.portfolioStack} aria-hidden>
+              <div className={sk.card}>
+                <div className={`${sk.block} ${sk.line}`} />
+                <div className={`${sk.block} ${sk.square}`} style={{ marginTop: 8, aspectRatio: '5/2' }} />
+              </div>
             </div>
           ) : portfolio.length > 0 ? (
-            <div className={scroll.scrollRow}>
-              {portfolio.map((item) => (
-                <PortfolioCard key={item.id} item={item} />
-              ))}
+            <div className={home.portfolioStack}>
+              <PortfolioCard item={portfolio[0]} variant="featured" />
+              {portfolio.length > 1 && (
+                <ul className={home.portfolioMore}>
+                  {portfolio.slice(1, 3).map((item) => (
+                    <li key={item.id}>
+                      <PortfolioCard item={item} variant="compact" />
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           ) : (
             <p className={section.sectionLead}>

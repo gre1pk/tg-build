@@ -30,6 +30,7 @@ npm run dev
 - Пустая форма (нет фото и комментария) → ошибка на клиенте; `POST` без тела → `400`
 - Не-админ → `GET /api/admin/orders` → `403`
 - `PATCH` из `done` → `400`
+- `DELETE .../photo` для активной заявки (`new`/`in_progress`) → `400`
 
 ## curl
 

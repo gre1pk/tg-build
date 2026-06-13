@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
+import { StaffEntryButton } from '@/components/StaffEntryButton/StaffEntryButton';
 import { classNames } from '@/css/classnames';
 import { formatPricePerMeter } from '@/helpers/formatPrice';
 import { useFabric } from '@/hooks/useFabrics';
@@ -50,6 +51,7 @@ export const FabricDetailPage: FC = () => {
   return (
     <Page>
       <div className={classNames(page.page, page.pageDetail)}>
+        <StaffEntryButton />
         <img
           src={fabric.imageUrl}
           alt={`Образец ткани ${fabric.name}, ${fabric.color}`}

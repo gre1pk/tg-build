@@ -1,8 +1,7 @@
 const { verifySessionToken } = require('./jwt');
 
-function getAdminTelegramIds() {
-  const raw = process.env.ADMIN_TELEGRAM_IDS ?? '';
-  return raw
+function parseTelegramIds(raw) {
+  return (raw ?? '')
     .split(',')
     .map((id) => id.trim())
     .filter(Boolean)
@@ -10,13 +9,33 @@ function getAdminTelegramIds() {
     .filter((id) => Number.isFinite(id));
 }
 
-function isAdminTelegramId(telegramId) {
-  const admins = getAdminTelegramIds();
-  if (admins.length === 0) return false;
-  return admins.includes(telegramId);
+function getAdminTelegramIds() {
+  return parseTelegramIds(process.env.ADMIN_TELEGRAM_IDS);
 }
 
-function requireAdmin(authHeader) {
+function getMasterTelegramIds() {
+  return parseTelegramIds(process.env.MASTER_TELEGRAM_IDS);
+}
+
+function resolveUserRole(telegramId) {
+  if (getAdminTelegramIds().includes(telegramId)) {
+    return 'admin';
+  }
+  if (getMasterTelegramIds().includes(telegramId)) {
+    return 'master';
+  }
+  return null;
+}
+
+function isStaffTelegramId(telegramId) {
+  return resolveUserRole(telegramId) !== null;
+}
+
+function isAdminTelegramId(telegramId) {
+  return isStaffTelegramId(telegramId);
+}
+
+function requireStaff(authHeader) {
   const token = authHeader?.replace(/^Bearer\s+/i, '');
   if (!token) {
     return { ok: false, status: 401, error: 'Missing authorization token' };
@@ -24,32 +43,48 @@ function requireAdmin(authHeader) {
 
   try {
     const user = verifySessionToken(token);
-    if (!isAdminTelegramId(user.telegramId)) {
-      return { ok: false, status: 403, error: 'Admin access required' };
+    const role = resolveUserRole(user.telegramId);
+    if (!role) {
+      return { ok: false, status: 403, error: 'Staff access required' };
     }
-    return { ok: true, user };
+    return { ok: true, user, role };
   } catch {
     return { ok: false, status: 401, error: 'Invalid or expired session' };
   }
 }
 
-function checkAdminSession(authHeader) {
+function checkStaffSession(authHeader) {
   const token = authHeader?.replace(/^Bearer\s+/i, '');
   if (!token) {
-    return { isAdmin: false, user: null };
+    return { role: null, isStaff: false, isAdmin: false, user: null };
   }
 
   try {
     const user = verifySessionToken(token);
-    return { isAdmin: isAdminTelegramId(user.telegramId), user };
+    const role = resolveUserRole(user.telegramId);
+    const isStaff = role !== null;
+    return { role, isStaff, isAdmin: isStaff, user };
   } catch {
-    return { isAdmin: false, user: null };
+    return { role: null, isStaff: false, isAdmin: false, user: null };
   }
+}
+
+function checkAdminSession(authHeader) {
+  return checkStaffSession(authHeader);
+}
+
+function requireAdmin(authHeader) {
+  return requireStaff(authHeader);
 }
 
 module.exports = {
   getAdminTelegramIds,
+  getMasterTelegramIds,
+  resolveUserRole,
+  isStaffTelegramId,
   isAdminTelegramId,
+  requireStaff,
   requireAdmin,
+  checkStaffSession,
   checkAdminSession,
 };

@@ -1,0 +1,15 @@
+.wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 var(--app-space) var(--app-space-xs);
+}
+
+.link {
+  min-height: var(--app-touch-min);
+  padding: var(--app-space-xs) var(--app-space-sm);
+  border-radius: var(--app-radius-xs);
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}

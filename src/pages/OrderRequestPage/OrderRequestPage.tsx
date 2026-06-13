@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
+import { StaffEntryButton } from '@/components/StaffEntryButton/StaffEntryButton';
 import { classNames } from '@/css/classnames';
 import { submitOrderRequest } from '@/helpers/submitOrderRequest';
 import { useFabric } from '@/hooks/useFabrics';
@@ -79,6 +80,9 @@ export const OrderRequestPage: FC = () => {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+    if (submitting) {
+      return;
+    }
     setSubmitError(null);
     setSubmitted(false);
 
@@ -167,6 +171,7 @@ export const OrderRequestPage: FC = () => {
           title="Заявка на перетяжку"
           lead="Добавьте фото мебели или комментарий — заявка сохранится, мастер увидит её в админке."
         />
+        <StaffEntryButton />
 
         <form className={form.orderForm} onSubmit={handleSubmit} noValidate>
           {fabric && (

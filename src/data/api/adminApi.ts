@@ -1,5 +1,5 @@
 import { getAuthToken } from '@/auth/session';
-import type { Fabric, PortfolioItem } from '@/data/types';
+import type { Fabric, PortfolioItem, StaffMeResponse } from '@/data/types';
 
 async function adminFetch<T>(url: string, init: RequestInit = {}): Promise<T> {
   const token = getAuthToken();
@@ -23,13 +23,10 @@ async function adminFetch<T>(url: string, init: RequestInit = {}): Promise<T> {
   return body;
 }
 
-export interface AdminMeResponse {
-  isAdmin: boolean;
-  user: { telegramId: number; firstName: string } | null;
-}
+export type { StaffMeResponse } from '@/data/types';
 
-export async function fetchAdminMe(): Promise<AdminMeResponse> {
-  return adminFetch<AdminMeResponse>('/api/admin/me');
+export async function fetchAdminMe(): Promise<StaffMeResponse> {
+  return adminFetch<StaffMeResponse>('/api/admin/me');
 }
 
 export async function uploadAdminImage(

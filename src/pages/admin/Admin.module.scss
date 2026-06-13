@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--app-space-sm);
-  margin: 0 var(--app-space);
+  margin: 0 var(--app-space) var(--app-space-lg);
 }
 
 .navLink {
@@ -104,9 +104,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--app-surface-1);
+  background: var(--app-surface-2);
   border: 1px solid var(--app-border);
-  color: var(--tg-theme-hint-color, #6b7280);
+  color: var(--app-text-hint);
   font-size: 0.75rem;
 }
 

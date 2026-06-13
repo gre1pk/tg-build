@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import { BeforeAfterCompare } from '@/components/BeforeAfterCompare/BeforeAfterCompare';
 import type { PortfolioItem } from '@/data/types';
 import { classNames } from '@/css/classnames';
 
@@ -7,36 +8,22 @@ import styles from './PortfolioCard.module.scss';
 
 interface PortfolioCardProps {
   item: PortfolioItem;
+  variant?: 'featured' | 'compact';
 }
 
-export const PortfolioCard: FC<PortfolioCardProps> = ({ item }) => {
+export const PortfolioCard: FC<PortfolioCardProps> = ({ item, variant = 'compact' }) => {
+  const compareVariant = variant === 'featured' ? 'featured' : 'compact';
+
   return (
-    <article className={styles.card}>
+    <article className={classNames(styles.card, styles[variant])}>
       <h3 className={styles.title}>{item.title}</h3>
-      <div className={styles.compare}>
-        <figure className={styles.shot}>
-          <img
-            src={item.beforeImageUrl}
-            alt={`${item.title} — до перетяжки`}
-            className={styles.image}
-            loading="lazy"
-            width={160}
-            height={120}
-          />
-          <figcaption className={styles.label}>До</figcaption>
-        </figure>
-        <figure className={styles.shot}>
-          <img
-            src={item.afterImageUrl}
-            alt={`${item.title} — после перетяжки`}
-            className={styles.image}
-            loading="lazy"
-            width={160}
-            height={120}
-          />
-          <figcaption className={classNames(styles.label, styles.labelAfter)}>После</figcaption>
-        </figure>
-      </div>
+      <BeforeAfterCompare
+        beforeImageUrl={item.beforeImageUrl}
+        afterImageUrl={item.afterImageUrl}
+        beforeAlt={`${item.title} — до перетяжки`}
+        afterAlt={`${item.title} — после перетяжки`}
+        variant={compareVariant}
+      />
       <p className={styles.fabric}>Ткань: {item.fabricName}</p>
     </article>
   );

@@ -2,7 +2,7 @@ import type { FC, ReactNode } from 'react';
 
 import { useAuth } from '@/auth/useAuth';
 import { Page } from '@/components/Page';
-import { useAdmin } from '@/hooks/useAdmin';
+import { useStaff } from '@/hooks/useStaff';
 import { Placeholder } from '@telegram-apps/telegram-ui';
 
 interface AdminGateProps {
@@ -11,9 +11,9 @@ interface AdminGateProps {
 
 export const AdminGate: FC<AdminGateProps> = ({ children }) => {
   const { user, loading: authLoading, error: authError } = useAuth();
-  const { isAdmin, loading: adminLoading, error: adminError } = useAdmin();
+  const { isStaff, loading: staffLoading, error: staffError } = useStaff();
 
-  if (authLoading || adminLoading) {
+  if (authLoading || staffLoading) {
     return (
       <Page>
         <Placeholder header="Проверяем доступ…" description="Подождите несколько секунд" />
@@ -24,10 +24,7 @@ export const AdminGate: FC<AdminGateProps> = ({ children }) => {
   if (authError) {
     return (
       <Page>
-        <Placeholder
-          header="Не удалось войти"
-          description={authError}
-        />
+        <Placeholder header="Не удалось войти" description={authError} />
       </Page>
     );
   }
@@ -43,20 +40,20 @@ export const AdminGate: FC<AdminGateProps> = ({ children }) => {
     );
   }
 
-  if (adminError) {
+  if (staffError) {
     return (
       <Page>
-        <Placeholder header="Ошибка" description={adminError} />
+        <Placeholder header="Ошибка" description={staffError} />
       </Page>
     );
   }
 
-  if (!isAdmin) {
+  if (!isStaff) {
     return (
       <Page>
         <Placeholder
           header="Нет доступа"
-          description={`Ваш Telegram ID: ${user.telegramId}. Добавьте его в ADMIN_TELEGRAM_IDS на сервере.`}
+          description="Эта страница доступна только мастеру студии."
         />
       </Page>
     );

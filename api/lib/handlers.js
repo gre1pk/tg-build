@@ -1,6 +1,6 @@
 const { createSessionToken, verifySessionToken } = require('./jwt');
 const { validateInitData } = require('./validateInitData');
-const { requireAdmin, checkAdminSession } = require('./adminAuth');
+const { requireStaff, checkStaffSession } = require('./adminAuth');
 const {
   listFabrics,
   getFabricById,
@@ -175,8 +175,20 @@ function validateOrderPhoto(photo) {
 }
 
 function handleAdminMe(authHeader) {
-  const { isAdmin, user } = checkAdminSession(authHeader);
-  return { status: 200, body: { isAdmin, user } };
+  const token = authHeader?.replace(/^Bearer\s+/i, '');
+  if (!token) {
+    return { status: 401, body: { error: 'Missing authorization token' } };
+  }
+
+  try {
+    const { role, isStaff, isAdmin, user } = checkStaffSession(authHeader);
+    if (!user) {
+      return { status: 401, body: { error: 'Invalid or expired session' } };
+    }
+    return { status: 200, body: { role, isStaff, isAdmin, user } };
+  } catch {
+    return { status: 401, body: { error: 'Invalid or expired session' } };
+  }
 }
 
 async function handleFabricsList() {
@@ -210,7 +222,7 @@ async function handlePortfolioList() {
 }
 
 async function handleAdminCreateFabric(authHeader, body) {
-  const auth = requireAdmin(authHeader);
+  const auth = requireStaff(authHeader);
   if (!auth.ok) {
     return { status: auth.status, body: { error: auth.error } };
   }
@@ -226,7 +238,7 @@ async function handleAdminCreateFabric(authHeader, body) {
 }
 
 async function handleAdminUpdateFabric(authHeader, id, body) {
-  const auth = requireAdmin(authHeader);
+  const auth = requireStaff(authHeader);
   if (!auth.ok) {
     return { status: auth.status, body: { error: auth.error } };
   }
@@ -245,7 +257,7 @@ async function handleAdminUpdateFabric(authHeader, id, body) {
 }
 
 async function handleAdminDeleteFabric(authHeader, id) {
-  const auth = requireAdmin(authHeader);
+  const auth = requireStaff(authHeader);
   if (!auth.ok) {
     return { status: auth.status, body: { error: auth.error } };
   }
@@ -262,7 +274,7 @@ async function handleAdminDeleteFabric(authHeader, id) {
 }
 
 async function handleAdminCreatePortfolio(authHeader, body) {
-  const auth = requireAdmin(authHeader);
+  const auth = requireStaff(authHeader);
   if (!auth.ok) {
     return { status: auth.status, body: { error: auth.error } };
   }
@@ -278,7 +290,7 @@ async function handleAdminCreatePortfolio(authHeader, body) {
 }
 
 async function handleAdminUpdatePortfolio(authHeader, id, body) {
-  const auth = requireAdmin(authHeader);
+  const auth = requireStaff(authHeader);
   if (!auth.ok) {
     return { status: auth.status, body: { error: auth.error } };
   }
@@ -297,7 +309,7 @@ async function handleAdminUpdatePortfolio(authHeader, id, body) {
 }
 
 async function handleAdminDeletePortfolio(authHeader, id) {
-  const auth = requireAdmin(authHeader);
+  const auth = requireStaff(authHeader);
   if (!auth.ok) {
     return { status: auth.status, body: { error: auth.error } };
   }
@@ -314,7 +326,7 @@ async function handleAdminDeletePortfolio(authHeader, id) {
 }
 
 async function handleAdminUpload(authHeader, body) {
-  const auth = requireAdmin(authHeader);
+  const auth = requireStaff(authHeader);
   if (!auth.ok) {
     return { status: auth.status, body: { error: auth.error } };
   }
@@ -389,7 +401,7 @@ async function handleCreateOrder(authHeader, body) {
 }
 
 async function handleAdminListOrders(authHeader, query = {}) {
-  const auth = requireAdmin(authHeader);
+  const auth = requireStaff(authHeader);
   if (!auth.ok) {
     return { status: auth.status, body: { error: auth.error } };
   }
@@ -411,7 +423,7 @@ async function handleAdminListOrders(authHeader, query = {}) {
 }
 
 async function handleAdminUpdateOrder(authHeader, id, body) {
-  const auth = requireAdmin(authHeader);
+  const auth = requireStaff(authHeader);
   if (!auth.ok) {
     return { status: auth.status, body: { error: auth.error } };
   }
@@ -438,7 +450,7 @@ async function handleAdminUpdateOrder(authHeader, id, body) {
 }
 
 async function handleAdminDeleteOrderPhoto(authHeader, id) {
-  const auth = requireAdmin(authHeader);
+  const auth = requireStaff(authHeader);
   if (!auth.ok) {
     return { status: auth.status, body: { error: auth.error } };
   }

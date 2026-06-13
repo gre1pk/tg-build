@@ -41,17 +41,25 @@ Vercel **не хранит** загружаемые файлы на диск —
 
 ---
 
-## Доступ мастера
+## Доступ staff (мастер и admin)
 
 1. Пользователь входит через Telegram (`initData` → JWT), как в Mini App.
-2. API на write-методах проверяет `telegramId` из JWT против списка админов.
-3. Список админов — env на Vercel (не в клиенте):
+2. API на `/api/admin/*` проверяет `telegramId` из JWT против **staff** whitelist (объединение двух env-списков).
+3. Списки — только env на Vercel (не в клиенте):
 
 ```env
-ADMIN_TELEGRAM_IDS=123456789,987654321
+# Технический admin (role=admin в /api/admin/me)
+ADMIN_TELEGRAM_IDS=123456789
+
+# Мастер студии (role=master) — те же права на API и /admin
+MASTER_TELEGRAM_IDS=987654321
 ```
 
-Узнать свой ID: [@userinfobot](https://t.me/userinfobot) или из JWT/`user.telegramId` после входа в dev.
+**Не путать**: `MASTER_TELEGRAM_CHAT_ID` — только bot notify о заявках, не авторизация.
+
+Узнать свой ID: [@userinfobot](https://t.me/userinfobot) или `user.telegramId` после входа в dev.
+
+На клиентских экранах staff видит кнопку «Панель мастера» / «Админка» → `/#/admin`. Обычные клиенты кнопки не видят.
 
 Страница `/admin` без прав показывает «Нет доступа», не форму редактирования.
 
@@ -197,7 +205,7 @@ api/admin/portfolio.js
 api/admin/upload.js
 api/portfolio/index.js       # public GET
 src/pages/admin/             # UI админки
-src/config/brand.ts          # MASTER_TELEGRAM_USERNAME (клиенты)
+src/config/brand.ts          # VITE_MASTER_TELEGRAM_USERNAME → кнопка «Задать вопрос»
 ```
 
 ---
