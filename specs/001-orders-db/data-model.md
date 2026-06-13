@@ -1,6 +1,6 @@
 # Data Model: orders
 
-**Фича**: `001-orders-db` | **Дата**: 2026-06-13 | **Обновлено**: post-clarify
+**Фича**: `001-orders-db` | **Дата**: 2026-06-13 | **Обновлено**: post-implement (P4)
 
 ## Таблица `orders`
 
@@ -22,7 +22,7 @@
 
 - При **create**: обязательно `comment` (trim ≠ '') **или** `photo_url` после upload.
 - При **update status**: см. матрицу переходов в [research.md](./research.md#r3-статусы-заявки).
-- **P4**: мастер может удалить фото в архиве — Storage + `photo_url = null`; запись заявки сохраняется.
+- При **delete photo** (P4): только `status` ∈ `done`, `cancelled`; `photo_url` not null → Storage remove + `photo_url = null`; повторный DELETE → 400.
 
 ### Индексы
 

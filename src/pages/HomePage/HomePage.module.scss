@@ -6,14 +6,6 @@
   border: 1px solid var(--app-border);
 }
 
-.heroImage {
-  width: 100%;
-  aspect-ratio: 5 / 3;
-  max-height: clamp(180px, 40vw, 248px);
-  object-fit: cover;
-  display: block;
-}
-
 .heroContent {
   padding: var(--app-space) var(--app-space) var(--app-space-sm);
   color: var(--tg-theme-text-color);
@@ -21,15 +13,32 @@
 
 .heroEyebrow {
   display: inline-block;
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   margin: 0 0 var(--app-space-xs);
-  padding: var(--app-space-xs) var(--app-space-xs);
+  padding: var(--app-space-xs) var(--app-space-sm);
   border-radius: var(--app-radius-xs);
   background: var(--app-accent-muted);
   color: var(--app-accent);
+}
+
+.portfolioStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-sm);
+}
+
+.portfolioMore {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--app-space-sm);
+
+  @media (min-width: 420px) {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .heroTitle {

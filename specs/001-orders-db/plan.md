@@ -2,13 +2,13 @@
 
 > **Язык**: заполнять на русском. Идентификаторы кода, пути, env и API — на английском.
 
-**Ветка**: `001-orders-db` | **Дата**: 2026-06-13 | **Обновлено**: после `/speckit-clarify` | **Spec**: [spec.md](./spec.md)
+**Ветка**: `001-orders-db` | **Дата**: 2026-06-13 | **Обновлено**: 2026-06-09 (post-implement) | **Spec**: [spec.md](./spec.md)
 
-**Вход**: Спецификация из `/specs/001-orders-db/spec.md` (статус: **Уточнено**)
+**Вход**: Спецификация из `/specs/001-orders-db/spec.md` (статус: **Реализовано**)
 
 ## Краткое содержание
 
-Сохранять заявки клиента в Supabase (`orders`, bucket `order-images`), дать мастеру админку `/admin/orders` с вкладками «Активные» / «Архив» и валидацией переходов статусов (`new` → `in_progress` → `done`, отклонение → `cancelled`). Клиент после успешного `POST /api/orders` видит только экран «Заявка сохранена» — **без** Share API и без открытия Telegram. Опционально (P3): бот шлёт мастеру краткое превью заявки.
+Сохранять заявки клиента в Supabase (`orders`, bucket `order-images`), дать мастеру админку `/admin/orders` с вкладками «Активные» / «Архив» и валидацией переходов статусов (`new` → `in_progress` → `done`, отклонение → `cancelled`). Клиент после успешного `POST /api/orders` видит только экран «Заявка сохранена» — **без** Share API и без открытия Telegram. Опционально (P3): бот шлёт мастеру краткое превью заявки. P4: в архиве мастер может удалить фото заявки (Storage cleanup, запись остаётся).
 
 Переиспользовать: `api/index.js` + `api/lib/router.js`, JWT-auth, `adminAuth`, `uploadImage`, SCSS admin UI.
 
@@ -34,15 +34,15 @@
 
 ## Constitution Check
 
-*GATE: пройдено перед Phase 0. Перепроверено после design (post-clarify).*
+*GATE: пройдено перед Phase 0. Перепроверено после design (post-clarify). Перепроверено после implement (P4).*
 
 Ссылка: `.specify/memory/constitution.md` (tg-build v1.1.1)
 
 - [x] **I. Telegram-Native**: форма `/order` без лишних экранов; после сохранения — нативный success в Mini App; мастер работает через `/admin/orders` (без принудительного deep link в чат)
-- [x] **II. Photo-First UX**: фото мебели остаётся центральным; превью в админке; валидация «фото или комментарий»
-- [x] **III. Mock/Live Parity**: mock-auth + live Supabase в dev (`npm run dev`, не `dev:mock` для orders); типы `Order` в `src/data/types.ts`; контракт в `contracts/orders-api.md`; мутации через `orderApi.ts` — см. Complexity Tracking
-- [x] **IV. Server-Side Security**: JWT на `POST /api/orders`; admin routes под `ADMIN_TELEGRAM_IDS`; фото через service role; Bot token только на сервере
-- [x] **V. Simplicity**: одна таблица, четыре статуса с простой матрицей переходов; P3 notify опционален; без новых serverless functions
+- [x] **II. Photo-First UX**: фото мебели остаётся центральным; превью в админке; валидация «фото или комментарий»; P4 не ломает photo-first — удаление только по явному действию мастера в архиве
+- [x] **III. Mock/Live Parity**: mock-auth + live Supabase в dev (`npm run dev`, не `dev:mock` для orders); типы `Order` в `src/data/types.ts`; контракт в `contracts/orders-api.md`; мутации через `orderApi.ts` / `adminOrdersApi.ts` — см. Complexity Tracking
+- [x] **IV. Server-Side Security**: JWT на `POST /api/orders`; admin routes (включая `DELETE .../photo`) под `ADMIN_TELEGRAM_IDS`; фото через service role; Bot token только на сервере
+- [x] **V. Simplicity**: одна таблица, четыре статуса с простой матрицей переходов; P3 notify опционален; P4 — один endpoint + confirm в UI; без новых serverless functions
 
 ## Структура проекта
 
@@ -50,36 +50,36 @@
 
 ```text
 specs/001-orders-db/
-├── spec.md              # уточнено (/speckit-clarify)
+├── spec.md              # уточнено (/speckit-clarify), реализовано
 ├── plan.md              # этот файл
 ├── research.md          # Phase 0
 ├── data-model.md        # Phase 1
 ├── quickstart.md        # Phase 1
 ├── contracts/
 │   └── orders-api.md
-└── tasks.md             # Phase 2 (/speckit-tasks)
+└── tasks.md             # Phase 2 (/speckit-tasks) — T001–T028 ✅
 ```
 
-### Исходный код (изменения)
+### Исходный код (реализовано)
 
 ```text
-supabase/schema.sql              # + orders, order-images, cancelled status
+supabase/schema.sql              # orders, order-images, cancelled status
 
 api/lib/
-├── db.js                        # createOrder, listOrders, updateOrderStatus
-├── orderStatus.js               # validateStatusTransition (new)
-├── handlers.js                  # handleCreateOrder, handleAdminOrders*
+├── db.js                        # createOrder, listOrders, updateOrderStatus, deleteOrderPhoto
+├── orderStatus.js               # assertValidTransition
+├── handlers.js                  # handleCreateOrder, handleAdminOrders*, handleAdminDeleteOrderPhoto
 ├── telegramNotify.js            # notifyMasterNewOrder (P3)
-└── router.js                    # POST /api/orders, GET/PATCH /api/admin/orders
+└── router.js                    # POST /api/orders, GET/PATCH/DELETE /api/admin/orders*
 
 src/
 ├── data/types.ts                # Order, OrderStatus (+ cancelled)
 ├── data/api/orderApi.ts         # createOrder client
-├── data/api/adminOrdersApi.ts   # fetchAdminOrders, updateOrderStatus
-├── helpers/submitOrderRequest.ts  # POST API only (убрать Share/Telegram)
+├── data/api/adminOrdersApi.ts   # fetchAdminOrders, updateOrderStatus, deleteOrderPhoto
+├── helpers/submitOrderRequest.ts
 └── pages/
     ├── OrderRequestPage/        # success UI, client validation
-    └── admin/AdminOrdersPage.tsx  # вкладки Активные / Архив
+    └── admin/AdminOrdersPage.tsx  # вкладки, статусы, «Удалить фото» в архиве
 
 src/navigation/routes.tsx        # /admin/orders
 src/pages/admin/AdminHomePage.tsx
@@ -89,44 +89,44 @@ src/pages/admin/AdminHomePage.tsx
 
 ## Phase 0: Research
 
-См. [research.md](./research.md) — upload, client flow (без Telegram), статусы + `cancelled`, admin tabs, notify format.
+См. [research.md](./research.md) — upload, client flow (без Telegram), статусы + `cancelled`, admin tabs, notify format, P4 Storage cleanup.
 
 ## Phase 1: Design
 
-- [data-model.md](./data-model.md) — схема `orders`, enum статусов
-- [contracts/orders-api.md](./contracts/orders-api.md) — контракты API + валидация
+- [data-model.md](./data-model.md) — схема `orders`, enum статусов, правило delete photo
+- [contracts/orders-api.md](./contracts/orders-api.md) — контракты API + валидация + DELETE photo
 - [quickstart.md](./quickstart.md) — smoke локально и production
 
 ## Phase 2: Implementation outline
 
-### Шаг 1 — База (blocking)
+### Шаг 1 — База (blocking) ✅
 
 1. `supabase/schema.sql`: таблица `orders` (включая `cancelled`), индексы, bucket `order-images`, trigger `updated_at`.
 2. `api/lib/orderStatus.js`: `assertValidTransition(from, to)`.
 3. `api/lib/db.js`: `createOrder` (валидация photo|comment), `listOrders({ status })`, `updateOrderStatus`.
 4. Handlers + router: `POST /api/orders`, `GET /api/admin/orders?status=`, `PATCH /api/admin/orders/:id`.
 
-### Шаг 2 — Клиент P1 (MVP)
+### Шаг 2 — Клиент P1 (MVP) ✅
 
 5. `src/data/api/orderApi.ts` + типы.
 6. `submitOrderRequest.ts`: только `POST /api/orders`; **удалить** `openMasterContact` / Share из success path.
 7. `OrderRequestPage`: client validation (фото или комментарий); success «Заявка сохранена»; ошибки 401/400/500.
 
-### Шаг 3 — Админ P2
+### Шаг 3 — Админ P2 ✅
 
 8. `AdminOrdersPage`: вкладки «Активные» (`new,in_progress`) и «Архив» (`done,cancelled`); превью фото; кнопки смены статуса + «Отклонить».
 9. Маршрут `/admin/orders` + ссылка с admin dashboard.
 
-### Шаг 4 — Notify P3 (optional)
+### Шаг 4 — Notify P3 (optional) ✅
 
 10. `api/lib/telegramNotify.js`: имя клиента, комментарий ≤100 симв. или «Без комментария», ссылка `{APP_BASE_URL}/#/admin/orders`.
 11. Env: `MASTER_TELEGRAM_CHAT_ID`, опционально `APP_BASE_URL` для ссылки в сообщении.
 
-### Шаг 5 — Очистка Storage P4 (план, не v1)
+### Шаг 5 — Очистка Storage P4 ✅
 
-12. В «Архиве» `/admin/orders` — кнопка «Удалить фото» (только `done` / `cancelled`).
-13. API: удаление объекта из `order-images` + `photo_url = null` в `orders`; строка заявки не удаляется.
-14. Подтверждение в UI (confirm), чтобы не снести фото случайно.
+12. В «Архиве» `/admin/orders` — кнопка «Удалить фото» (только `done` / `cancelled`), confirm.
+13. `DELETE /api/admin/orders/:id/photo`: удаление из `order-images` + `photo_url = null`; строка заявки не удаляется.
+14. `deleteOrderPhoto()` в `db.js` — парсинг path из public URL, `storage.remove`.
 
 ## Complexity Tracking
 
@@ -135,7 +135,11 @@ src/pages/admin/AdminHomePage.tsx
 | Base64 upload (как admin) | уже работает в проекте | multipart на Vercel — лишний парсер в v1 |
 | Отдельный `orderStatus.js` | явная матрица переходов для PATCH | inline в handler размоет логику и усложнит smoke-тест |
 | `orderApi.ts` / `adminOrdersApi.ts` без repository | паттерн мутаций как существующий `adminApi.ts` | `createRepository` — для read-only каталога; CRUD заявок — прямой API-клиент |
+| Orders без mock-режима | live Supabase обязателен для POST/PATCH/DELETE | mock БД для заявок — лишняя инфраструктура; задокументировано в plan + quickstart |
 
 ## Следующий шаг
 
-v1 + P4 (T001–T028) реализованы. Следующий шаг — деплой на production или новая фича.
+**Фича закрыта** (T001–T028 в main). Дальше:
+
+1. Production smoke: SQL `orders` в Supabase, env P3 на Vercel, E2E `/order` → `/admin/orders` → архив → «Удалить фото».
+2. Новая фича — `/speckit-specify` (например поиск по каталогу, Main Button, история заявок клиента).

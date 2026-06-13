@@ -27,7 +27,7 @@
 - [x] Локальный `.env` (секреты + Supabase)
 - [x] `TELEGRAM_BOT_TOKEN` и `AUTH_JWT_SECRET` на Vercel
 - [x] `SUPABASE_URL` и `SUPABASE_SERVICE_ROLE_KEY` на Vercel
-- [ ] Задан реальный `MASTER_TELEGRAM_USERNAME` в `src/config/brand.ts`
+- [ ] Задан `VITE_MASTER_TELEGRAM_USERNAME` в Vercel / `.env` (кнопка «Задать вопрос» на главной)
 - [x] Первый деплой на Vercel
 - [ ] Mini App URL настроен в BotFather
 - [x] Приложение открывается в Telegram (не только в браузере)
@@ -57,7 +57,7 @@
 - [x] Админка `/admin/orders` — активные / архив, смена статуса
 - [x] Статусы: `new` → `in_progress` → `done`, отклонение → `cancelled`
 - [x] Уведомление мастеру о новой заявке (бот P3 — код готов; нужен `MASTER_TELEGRAM_CHAT_ID` в env)
-- [ ] Удаление фото заявки в архиве админки (P4 — освобождение Storage)
+- [x] Удаление фото заявки в архиве админки (P4 — освобождение Storage)
 
 ---
 
@@ -158,12 +158,14 @@
 - [x] Главная: портфолио из API (не mock в live-режиме)
 - [x] Убран runtime-fallback на JSON (только Supabase на проде)
 
-### Этап 3 — Защита админа
+### Этап 3 — Защита админа / staff
 
 - [x] `ADMIN_TELEGRAM_IDS` в env (Vercel + `.env`)
-- [x] `api/lib/adminAuth.js` — JWT + whitelist
-- [x] GET `/api/admin/me` — проверка прав на клиенте
-- [x] 403 для не-админов на `/api/admin/*`
+- [x] `MASTER_TELEGRAM_IDS` — роль master, равные права staff
+- [x] `api/lib/adminAuth.js` — JWT + whitelist + `requireStaff`
+- [x] GET `/api/admin/me` — `{ role, isStaff, user }`
+- [x] Staff-кнопка на клиентских экранах → `/admin`
+- [x] 403 для не-staff на `/api/admin/*`
 
 ### Этап 4 — Загрузка фото
 

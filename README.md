@@ -45,6 +45,7 @@ npm run dev:mock
 |------------|----------|
 | `TELEGRAM_BOT_TOKEN` | Токен бота от [@BotFather](https://t.me/BotFather) |
 | `AUTH_JWT_SECRET` | Случайная строка ≥32 символов (`openssl rand -base64 32`) |
+| `VITE_MASTER_TELEGRAM_USERNAME` | (опционально) @username мастера без `@` — кнопка «Задать вопрос» на главной. Пусто = скрыта |
 
 4. Deploy — Vercel соберёт `dist/` и подключит `/api/*`.
 
@@ -116,6 +117,7 @@ src/
 | `/api/admin/orders` | GET | Список заявок (admin); query `?status=new,in_progress` |
 | `/api/admin/orders/:id` | PATCH | Обновить статус заявки (admin) |
 | `/api/admin/orders/:id/photo` | DELETE | Удалить фото заявки в архиве (admin; `done`/`cancelled`) |
+| `/api/admin/me` | GET | Staff profile: `{ role, isStaff, isAdmin, user }` |
 
 ## Переменные окружения
 
@@ -126,8 +128,9 @@ cp .env.example .env
 - `VITE_*` — клиентские (только `VITE_USE_MOCK_DATA` сейчас)
 - `TELEGRAM_BOT_TOKEN`, `AUTH_JWT_SECRET` — **только сервер**, не попадают в сборку Vite
 - `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` — Postgres + Storage
-- `ADMIN_TELEGRAM_IDS` — numeric Telegram ID админов (через запятую)
-- `MASTER_TELEGRAM_CHAT_ID` — (P3) chat id мастера для bot notify о новых заявках
+- `ADMIN_TELEGRAM_IDS` — numeric Telegram ID → role `admin` (полный staff)
+- `MASTER_TELEGRAM_IDS` — numeric Telegram ID → role `master` (те же права; подпись «Панель мастера» в UI)
+- `MASTER_TELEGRAM_CHAT_ID` — (P3) chat id для bot notify о новых заявках (**не** auth)
 - `APP_BASE_URL` — (P3) базовый URL Mini App для ссылки в notify, напр. `https://tg-build-ivory.vercel.app`
 
 ## Документация Telegram

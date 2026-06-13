@@ -1,4 +1,12 @@
 import type { Fabric } from '@/data/types';
+import {
+  DEMO_FABRIC_CHENILLE,
+  DEMO_FABRIC_JACQUARD,
+  DEMO_FABRIC_LEATHER,
+  DEMO_FABRIC_LINEN,
+  DEMO_FABRIC_VELVET,
+  DEMO_FABRIC_WOOL,
+} from '@/content/marketingImagery';
 
 export const mockFabrics: Fabric[] = [
   {
@@ -7,7 +15,7 @@ export const mockFabrics: Fabric[] = [
     material: 'Велюр',
     color: 'Бежевый',
     pricePerMeter: 1890,
-    imageUrl: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80',
+    imageUrl: DEMO_FABRIC_VELVET,
     description: 'Мягкий велюр с коротким ворсом. Подходит для диванов и кресел.',
     petFriendly: true,
   },
@@ -17,7 +25,7 @@ export const mockFabrics: Fabric[] = [
     material: 'Рогожка',
     color: 'Зелёный',
     pricePerMeter: 1450,
-    imageUrl: 'https://images.unsplash.com/photo-1584100936595-c0654b55a2d2?w=600&q=80',
+    imageUrl: DEMO_FABRIC_WOOL,
     description: 'Плотная рогожка, износостойкая, легко чистится.',
     petFriendly: true,
   },
@@ -27,7 +35,7 @@ export const mockFabrics: Fabric[] = [
     material: 'Шенилл',
     color: 'Серый',
     pricePerMeter: 2100,
-    imageUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+    imageUrl: DEMO_FABRIC_CHENILLE,
     description: 'Благородная фактура, хорошо смотрится на угловых диванах.',
   },
   {
@@ -36,7 +44,7 @@ export const mockFabrics: Fabric[] = [
     material: 'Экокожа',
     color: 'Коричневый',
     pricePerMeter: 2350,
-    imageUrl: 'https://images.unsplash.com/photo-1615529328331-f8917597711f?w=600&q=80',
+    imageUrl: DEMO_FABRIC_LEATHER,
     description: 'Практичный вариант для кухонных уголков и стульев.',
     petFriendly: true,
   },
@@ -46,7 +54,7 @@ export const mockFabrics: Fabric[] = [
     material: 'Лён',
     color: 'Светлый',
     pricePerMeter: 1680,
-    imageUrl: 'https://images.unsplash.com/photo-1600166898335-aa9510810d8c?w=600&q=80',
+    imageUrl: DEMO_FABRIC_LINEN,
     description: 'Натуральная фактура, светлые интерьеры и сканди-стиль.',
   },
   {
@@ -55,7 +63,7 @@ export const mockFabrics: Fabric[] = [
     material: 'Жаккард',
     color: 'Синий',
     pricePerMeter: 1980,
-    imageUrl: 'https://images.unsplash.com/photo-1616046229425-8315e4d1d1c8?w=600&q=80',
+    imageUrl: DEMO_FABRIC_JACQUARD,
     description: 'Выразительный узор, акцент на классических формах мебели.',
   },
 ];

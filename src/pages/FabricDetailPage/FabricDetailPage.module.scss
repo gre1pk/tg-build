@@ -3,7 +3,8 @@
   aspect-ratio: 4 / 3;
   object-fit: cover;
   display: block;
-  background: var(--tg-theme-secondary-bg-color);
+  background: var(--app-surface-2);
+  border-radius: var(--app-radius-sm) var(--app-radius-sm) 0 0;
 }
 
 .body {
