@@ -12,7 +12,12 @@ const {
   updatePortfolioItem,
   deletePortfolioItem,
   uploadImage,
+  createOrder,
+  listOrders,
+  updateOrderStatus,
+  deleteOrderPhoto,
 } = require('./db');
+const { notifyMasterNewOrder } = require('./telegramNotify');
 
 function getBotToken() {
   const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -125,6 +130,48 @@ function handleAuthMe(authHeader) {
   } catch {
     return { status: 401, body: { error: 'Invalid or expired session' } };
   }
+}
+
+function requireSession(authHeader) {
+  const token = authHeader?.replace(/^Bearer\s+/i, '');
+  if (!token) {
+    return { ok: false, status: 401, error: 'Missing authorization token' };
+  }
+
+  try {
+    return { ok: true, user: verifySessionToken(token) };
+  } catch {
+    return { ok: false, status: 401, error: 'Invalid or expired session' };
+  }
+}
+
+function validateOrderPhoto(photo) {
+  if (!photo || typeof photo !== 'object') {
+    return null;
+  }
+
+  if (!photo.dataBase64 || !photo.fileName) {
+    throw new Error('Invalid photo payload');
+  }
+
+  const contentType = photo.contentType || 'application/octet-stream';
+  if (!contentType.startsWith('image/')) {
+    throw new Error('Photo must be an image');
+  }
+
+  const buffer = Buffer.from(String(photo.dataBase64), 'base64');
+  if (buffer.length === 0) {
+    throw new Error('Empty file');
+  }
+  if (buffer.length > 10 * 1024 * 1024) {
+    throw new Error('File too large (max 10 MB)');
+  }
+
+  return {
+    fileName: String(photo.fileName),
+    contentType,
+    dataBase64: String(photo.dataBase64),
+  };
 }
 
 function handleAdminMe(authHeader) {
@@ -287,6 +334,132 @@ async function handleAdminUpload(authHeader, body) {
   }
 }
 
+async function handleCreateOrder(authHeader, body) {
+  const auth = requireSession(authHeader);
+  if (!auth.ok) {
+    return { status: auth.status, body: { error: auth.error } };
+  }
+
+  try {
+    const parsed = parseRequestBody(body);
+    const comment = typeof parsed.comment === 'string' ? parsed.comment : '';
+    const fabricId = parsed.fabricId ?? null;
+    const fabricSnapshot = parsed.fabricSnapshot ?? null;
+
+    let photoUrl = null;
+    const photo = validateOrderPhoto(parsed.photo);
+    if (photo) {
+      const uploaded = await uploadImage({
+        bucket: 'order-images',
+        fileName: photo.fileName,
+        contentType: photo.contentType,
+        dataBase64: photo.dataBase64,
+      });
+      photoUrl = uploaded.url;
+    }
+
+    const order = await createOrder({
+      user: auth.user,
+      comment,
+      fabricId,
+      fabricSnapshot,
+      photoUrl,
+    });
+
+    void notifyMasterNewOrder(order);
+
+    return {
+      status: 201,
+      body: {
+        id: order.id,
+        status: order.status,
+        createdAt: order.createdAt,
+      },
+    };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Failed to create order';
+    const isValidation =
+      message.includes('required') ||
+      message.includes('Invalid photo') ||
+      message.includes('Photo must') ||
+      message.includes('Empty file') ||
+      message.includes('too large');
+    return { status: isValidation ? 400 : 500, body: { error: message } };
+  }
+}
+
+async function handleAdminListOrders(authHeader, query = {}) {
+  const auth = requireAdmin(authHeader);
+  if (!auth.ok) {
+    return { status: auth.status, body: { error: auth.error } };
+  }
+
+  try {
+    const statusParam = typeof query.status === 'string' ? query.status : undefined;
+    const statuses = statusParam
+      ? statusParam
+          .split(',')
+          .map((value) => value.trim())
+          .filter(Boolean)
+      : undefined;
+
+    const orders = await listOrders({ statuses });
+    return { status: 200, body: orders };
+  } catch (err) {
+    return serverError(err);
+  }
+}
+
+async function handleAdminUpdateOrder(authHeader, id, body) {
+  const auth = requireAdmin(authHeader);
+  if (!auth.ok) {
+    return { status: auth.status, body: { error: auth.error } };
+  }
+
+  try {
+    const parsed = parseRequestBody(body);
+    const status = parsed?.status;
+
+    if (typeof status !== 'string' || !status.trim()) {
+      return { status: 400, body: { error: 'status is required' } };
+    }
+
+    const order = await updateOrderStatus(id, status.trim());
+    if (!order) {
+      return { status: 404, body: { error: 'Order not found' } };
+    }
+
+    return { status: 200, body: order };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Failed to update order';
+    const isValidation = message.includes('Invalid status transition');
+    return { status: isValidation ? 400 : 500, body: { error: message } };
+  }
+}
+
+async function handleAdminDeleteOrderPhoto(authHeader, id) {
+  const auth = requireAdmin(authHeader);
+  if (!auth.ok) {
+    return { status: auth.status, body: { error: auth.error } };
+  }
+
+  try {
+    const order = await deleteOrderPhoto(id);
+    if (!order) {
+      return { status: 404, body: { error: 'Order not found' } };
+    }
+
+    return { status: 200, body: order };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Failed to delete photo';
+    const isValidation =
+      message.includes('archived') ||
+      message.includes('no photo') ||
+      message.includes('Invalid photo');
+    return { status: isValidation ? 400 : 500, body: { error: message } };
+  }
+}
+
 module.exports = {
   handleAuthTelegram,
   handleAuthDev,
@@ -302,4 +475,8 @@ module.exports = {
   handleAdminUpdatePortfolio,
   handleAdminDeletePortfolio,
   handleAdminUpload,
+  handleCreateOrder,
+  handleAdminListOrders,
+  handleAdminUpdateOrder,
+  handleAdminDeleteOrderPhoto,
 };

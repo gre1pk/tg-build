@@ -70,3 +70,49 @@
   gap: var(--app-space-sm);
   margin: 0 var(--app-space) var(--app-space);
 }
+
+.tabs {
+  display: flex;
+  gap: var(--app-space-xs);
+  margin: 0 var(--app-space) var(--app-space);
+}
+
+.tab {
+  flex: 1;
+  min-height: 40px;
+  padding: 8px 12px;
+  border-radius: var(--app-radius-sm);
+  border: 1px solid var(--app-border);
+  background: var(--app-surface-2);
+  color: var(--tg-theme-text-color, inherit);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tabActive {
+  background: var(--tg-theme-button-color, #c45c26);
+  border-color: transparent;
+  color: var(--tg-theme-button-text-color, #fff);
+}
+
+.listThumbPlaceholder {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--app-radius-xs);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--app-surface-1);
+  border: 1px solid var(--app-border);
+  color: var(--tg-theme-hint-color, #6b7280);
+  font-size: 0.75rem;
+}
+
+.orderComment {
+  margin: var(--app-space-xs) 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}

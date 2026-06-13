@@ -44,9 +44,36 @@ function mapPortfolioInput(input) {
   };
 }
 
+function mapOrderRow(row) {
+  return {
+    id: row.id,
+    telegramId: Number(row.telegram_id),
+    userFirstName: row.user_first_name,
+    userUsername: row.user_username ?? undefined,
+    comment: row.comment ?? undefined,
+    fabricId: row.fabric_id ?? undefined,
+    fabricSnapshot: row.fabric_snapshot ?? undefined,
+    photoUrl: row.photo_url ?? undefined,
+    status: row.status,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+function mapOrderInput(input) {
+  return {
+    comment: input.comment != null ? String(input.comment).trim() : null,
+    fabric_id: input.fabricId ?? null,
+    fabric_snapshot: input.fabricSnapshot ? String(input.fabricSnapshot).trim() : null,
+    photo_url: input.photoUrl ?? null,
+  };
+}
+
 module.exports = {
   mapFabricRow,
   mapFabricInput,
   mapPortfolioRow,
   mapPortfolioInput,
+  mapOrderRow,
+  mapOrderInput,
 };

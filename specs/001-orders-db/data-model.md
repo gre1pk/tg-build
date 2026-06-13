@@ -22,6 +22,7 @@
 
 - При **create**: обязательно `comment` (trim ≠ '') **или** `photo_url` после upload.
 - При **update status**: см. матрицу переходов в [research.md](./research.md#r3-статусы-заявки).
+- **P4**: мастер может удалить фото в архиве — Storage + `photo_url = null`; запись заявки сохраняется.
 
 ### Индексы
 

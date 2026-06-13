@@ -1,6 +1,6 @@
 const handlers = require('./handlers');
 
-async function routeApi({ method, pathname, authHeader, body }) {
+async function routeApi({ method, pathname, authHeader, body, query = {} }) {
   if (pathname === '/api/fabrics' && method === 'GET') {
     return handlers.handleFabricsList();
   }
@@ -64,6 +64,31 @@ async function routeApi({ method, pathname, authHeader, body }) {
 
   if (pathname === '/api/admin/upload' && method === 'POST') {
     return handlers.handleAdminUpload(authHeader, body);
+  }
+
+  if (pathname === '/api/orders' && method === 'POST') {
+    return handlers.handleCreateOrder(authHeader, body);
+  }
+
+  if (pathname === '/api/admin/orders' && method === 'GET') {
+    return handlers.handleAdminListOrders(authHeader, query);
+  }
+
+  const adminOrderPhotoMatch = pathname.match(/^\/api\/admin\/orders\/([^/]+)\/photo$/);
+  if (adminOrderPhotoMatch && method === 'DELETE') {
+    return handlers.handleAdminDeleteOrderPhoto(
+      authHeader,
+      decodeURIComponent(adminOrderPhotoMatch[1]),
+    );
+  }
+
+  const adminOrderMatch = pathname.match(/^\/api\/admin\/orders\/([^/]+)$/);
+  if (adminOrderMatch && method === 'PATCH') {
+    return handlers.handleAdminUpdateOrder(
+      authHeader,
+      decodeURIComponent(adminOrderMatch[1]),
+      body,
+    );
   }
 
   return { status: 404, body: { error: 'Not found' } };

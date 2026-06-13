@@ -29,6 +29,9 @@ function getPathname(req) {
 
 module.exports = async function handler(req, res) {
   const pathname = getPathname(req);
+  const query = { ...req.query };
+  delete query.route;
+  delete query.path;
 
   try {
     const result = await routeApi({
@@ -36,6 +39,7 @@ module.exports = async function handler(req, res) {
       pathname,
       authHeader: req.headers.authorization,
       body: req.body,
+      query,
     });
     return res.status(result.status).json(result.body);
   } catch (err) {

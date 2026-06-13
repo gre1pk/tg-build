@@ -5,7 +5,6 @@ import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
 import { classNames } from '@/css/classnames';
-import { MasterContactNotConfiguredError } from '@/helpers/openMasterContact';
 import { submitOrderRequest } from '@/helpers/submitOrderRequest';
 import { useFabric } from '@/hooks/useFabrics';
 import actions from '@/ui/Actions.module.scss';
@@ -34,7 +33,7 @@ export const OrderRequestPage: FC = () => {
   const [photoError, setPhotoError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [submittedVia, setSubmittedVia] = useState<'shared' | 'telegram' | null>(null);
+  const [submitted, setSubmitted] = useState(false);
 
   const clearPhoto = () => {
     setPhoto(null);
@@ -51,7 +50,7 @@ export const OrderRequestPage: FC = () => {
   const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     setPhotoError(null);
-    setSubmittedVia(null);
+    setSubmitted(false);
 
     if (!file) {
       clearPhoto();
@@ -81,7 +80,7 @@ export const OrderRequestPage: FC = () => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setSubmitError(null);
-    setSubmittedVia(null);
+    setSubmitted(false);
 
     if (!photo && !comment.trim()) {
       setSubmitError('Добавьте фото мебели или коротко опишите, что нужно перетянуть.');
@@ -91,23 +90,16 @@ export const OrderRequestPage: FC = () => {
     setSubmitting(true);
 
     try {
-      const result = await submitOrderRequest({
+      await submitOrderRequest({
         photo,
         comment,
         fabric: fabric ?? null,
       });
-      setSubmittedVia(result);
+      setSubmitted(true);
     } catch (error) {
-      if (error instanceof DOMException && error.name === 'AbortError') {
-        return;
-      }
-      if (error instanceof MasterContactNotConfiguredError) {
-        setSubmitError(
-          'Контакт мастера ещё не настроен. Сохраните заявку и напишите мастеру, когда связь будет готова.',
-        );
-        return;
-      }
-      setSubmitError('Не удалось открыть чат с мастером. Попробуйте ещё раз.');
+      setSubmitError(
+        error instanceof Error ? error.message : 'Не удалось сохранить заявку. Попробуйте позже.',
+      );
     } finally {
       setSubmitting(false);
     }
@@ -147,12 +139,33 @@ export const OrderRequestPage: FC = () => {
     );
   }
 
+  if (submitted) {
+    return (
+      <Page>
+        <div className={page.page}>
+          <PageHeader title="Заявка на перетяжку" />
+          <div className={empty.empty}>
+            <p className={form.success} role="status">
+              Заявка сохранена
+            </p>
+            <p className={empty.emptyText}>
+              Мастер увидит её в админке и свяжется с вами при необходимости.
+            </p>
+            <Link to="/" className={classNames(btn.btn, btn.btnPrimary, empty.emptyAction)}>
+              На главную
+            </Link>
+          </div>
+        </div>
+      </Page>
+    );
+  }
+
   return (
     <Page>
       <div className={classNames(page.page, page.pageForm)}>
         <PageHeader
           title="Заявка на перетяжку"
-          lead="Добавьте фото мебели и комментарий — откроем чат с мастером с готовым текстом."
+          lead="Добавьте фото мебели или комментарий — заявка сохранится, мастер увидит её в админке."
         />
 
         <form className={form.orderForm} onSubmit={handleSubmit} noValidate>
@@ -226,7 +239,7 @@ export const OrderRequestPage: FC = () => {
               Комментарий
             </label>
             <p className={form.fieldHint} id={`${commentId}-hint`}>
-              Необязательно. Например: «угловой диван», «нужна ткань для кошек».
+              Нужен, если не прикрепляете фото. Например: «угловой диван», «нужна ткань для кошек».
             </p>
             <textarea
               id={commentId}
@@ -238,7 +251,7 @@ export const OrderRequestPage: FC = () => {
               aria-describedby={`${commentId}-hint`}
               onChange={(event) => {
                 setComment(event.target.value);
-                setSubmittedVia(null);
+                setSubmitted(false);
               }}
             />
           </div>
@@ -249,19 +262,6 @@ export const OrderRequestPage: FC = () => {
             </p>
           )}
 
-          {submittedVia === 'telegram' && (
-            <p className={form.success} role="status">
-              Чат с мастером открыт. Если фото не прикрепилось автоматически, отправьте его
-              следующим сообщением.
-            </p>
-          )}
-
-          {submittedVia === 'shared' && (
-            <p className={form.success} role="status">
-              Заявка отправлена. Мастер ответит в Telegram.
-            </p>
-          )}
-
           <div className={classNames(actions.actions, actions.actionsSticky)}>
             <button
               type="submit"
@@ -269,7 +269,7 @@ export const OrderRequestPage: FC = () => {
               disabled={submitting}
               aria-busy={submitting}
             >
-              {submitting ? 'Открываем чат…' : 'Отправить заявку мастеру'}
+              {submitting ? 'Сохраняем…' : 'Отправить заявку'}
             </button>
           </div>
         </form>

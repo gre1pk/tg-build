@@ -17,9 +17,15 @@ export const AdminHomePage: FC = () => {
         <div className={page.page}>
           <PageHeader
             title="Админка"
-            lead="Управление каталогом тканей и примерами работ"
+            lead="Управление каталогом, заявками и примерами работ"
           />
           <nav className={admin.nav} aria-label="Разделы админки">
+            <Link
+              to="/admin/orders"
+              className={classNames(btn.btn, btn.btnSecondary, admin.navLink)}
+            >
+              Заявки
+            </Link>
             <Link
               to="/admin/fabrics"
               className={classNames(btn.btn, btn.btnSecondary, admin.navLink)}
