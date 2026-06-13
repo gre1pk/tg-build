@@ -60,8 +60,8 @@
 }
 
 .iconBtn {
-  min-height: 36px;
-  padding: 6px 10px;
+  min-height: var(--app-touch-min);
+  padding: 8px 12px;
   font-size: 0.8125rem;
 }
 
@@ -84,8 +84,8 @@
 
 .tab {
   flex: 1;
-  min-height: 40px;
-  padding: 8px 12px;
+  min-height: var(--app-touch-min);
+  padding: 10px 12px;
   border-radius: var(--app-radius-sm);
   border: 1px solid var(--app-border);
   background: var(--app-surface-2);
@@ -93,12 +93,14 @@
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
+
+  @include focus-ring;
 }
 
 .tabActive {
-  background: var(--tg-theme-button-color, #c45c26);
+  background: var(--app-button-bg);
   border-color: transparent;
-  color: var(--tg-theme-button-text-color, #fff);
+  color: var(--app-button-text);
 }
 
 .listThumbPlaceholder {

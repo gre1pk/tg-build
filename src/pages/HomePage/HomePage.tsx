@@ -115,17 +115,13 @@ export const HomePage: FC = () => {
         <div className={home.heroActions}>
           <Link
             to="/order"
-            className={classNames(btn.btn, btn.btnPrimary, home.heroBtnPrimary)}
+            className={classNames(btn.btn, btn.btnPrimary, btn.btnSizeLg)}
           >
             Оставить заявку
           </Link>
           <Link
             to="/fabrics"
-            className={classNames(
-              btn.btn,
-              btn.btnSecondaryOutlined,
-              home.heroBtnSecondary,
-            )}
+            className={classNames(btn.btn, btn.btnSecondaryOutlined, btn.btnSizeMd)}
           >
             Каталог тканей
           </Link>
@@ -196,7 +192,7 @@ export const HomePage: FC = () => {
             <div className={home.portfolioStack} aria-hidden>
               <div className={sk.card}>
                 <div className={`${sk.block} ${sk.line}`} />
-                <div className={`${sk.block} ${sk.square}`} style={{ marginTop: 8, aspectRatio: '5/2' }} />
+                <div className={`${sk.block} ${sk.square} ${home.portfolioSkeletonImage}`} />
               </div>
             </div>
           ) : portfolio.length > 0 ? (
@@ -248,6 +244,12 @@ export const HomePage: FC = () => {
           <p className={section.sectionLead}>
             Пришлите фото мебели — мастер оценит работу и подскажет по тканям.
           </p>
+          <Link
+            to="/order"
+            className={classNames(btn.btn, btn.btnPrimary, section.sectionCtaBtn)}
+          >
+            Оставить заявку
+          </Link>
         </section>
       </div>
     </Page>

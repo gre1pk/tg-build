@@ -36,6 +36,6 @@ export const Link: FC<LinkProps> = ({ className, onClick: propsOnClick, to, ...r
   );
 
   return (
-    <RouterLink {...rest} to={to} onClick={onClick} className={classNames(className, styles.link)} />
+    <RouterLink {...rest} to={to} onClick={onClick} className={classNames(styles.link, className)} />
   );
 };

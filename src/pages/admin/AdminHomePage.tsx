@@ -23,19 +23,19 @@ export const AdminHomePage: FC = () => {
           <nav className={admin.nav} aria-label="Разделы админки">
             <Link
               to="/admin/orders"
-              className={classNames(btn.btn, btn.btnSecondary, admin.navLink)}
+              className={classNames(btn.btn, btn.btnSecondaryOutlined, admin.navLink)}
             >
               Заявки
             </Link>
             <Link
               to="/admin/fabrics"
-              className={classNames(btn.btn, btn.btnSecondary, admin.navLink)}
+              className={classNames(btn.btn, btn.btnSecondaryOutlined, admin.navLink)}
             >
               Ткани
             </Link>
             <Link
               to="/admin/portfolio"
-              className={classNames(btn.btn, btn.btnSecondary, admin.navLink)}
+              className={classNames(btn.btn, btn.btnSecondaryOutlined, admin.navLink)}
             >
               Портфолио
             </Link>

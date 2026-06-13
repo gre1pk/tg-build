@@ -34,7 +34,7 @@ export const AdminExitButton: FC<AdminExitButtonProps> = ({ fullWidth = false, c
       to="/"
       className={classNames(
         btn.btn,
-        btn.btnSecondary,
+        btn.btnSecondaryOutlined,
         styles.exit,
         fullWidth && styles.fullWidth,
         className,
