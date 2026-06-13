@@ -32,9 +32,9 @@ description: "Задачи: Заявки в Supabase (001-orders-db)"
 
 **Цель**: схема БД и env для заявок
 
-- [ ] T001 Добавить таблицу `orders` (включая `cancelled`), индексы, trigger `updated_at`, `enable row level security` (без public policies) в `supabase/schema.sql`
-- [ ] T002 Добавить bucket `order-images` и storage policy public read в `supabase/schema.sql`
-- [ ] T003 [P] Добавить `MASTER_TELEGRAM_CHAT_ID`, `APP_BASE_URL` (P3) в `.env.example` с комментариями
+- [x] T001 Добавить таблицу `orders` (включая `cancelled`), индексы, trigger `updated_at`, `enable row level security` (без public policies) в `supabase/schema.sql`
+- [x] T002 Добавить bucket `order-images` и storage policy public read в `supabase/schema.sql`
+- [x] T003 [P] Добавить `MASTER_TELEGRAM_CHAT_ID`, `APP_BASE_URL` (P3) в `.env.example` с комментариями
 
 **Checkpoint**: SQL можно выполнить в Supabase SQL Editor
 
@@ -46,13 +46,13 @@ description: "Задачи: Заявки в Supabase (001-orders-db)"
 
 **⚠️ КРИТИЧНО**: US1–US3 не начинать до завершения этой фазы
 
-- [ ] T004 Добавить типы `Order`, `OrderStatus` (+ `cancelled`) в `src/data/types.ts`
-- [ ] T005 [P] Добавить `mapOrderRow`, `mapOrderInput` в `api/lib/mappers.js`
-- [ ] T006 [P] Создать `api/lib/orderStatus.js` — `assertValidTransition(from, to)` по матрице spec
-- [ ] T007 Реализовать `createOrder` (валидация photo|comment; фото ≤10 МБ, `contentType` image/*), `listOrders({ status })`, `updateOrderStatus` в `api/lib/db.js`
-- [ ] T008 Расширить `uploadImage` — bucket `order-images` в whitelist `api/lib/db.js`
-- [ ] T009 Реализовать `handleCreateOrder` (400 до Storage при invalid photo), `handleAdminListOrders`, `handleAdminUpdateOrder` в `api/lib/handlers.js`
-- [ ] T010 Зарегистрировать `POST /api/orders`, `GET /api/admin/orders`, `PATCH /api/admin/orders/:id` в `api/lib/router.js`
+- [x] T004 Добавить типы `Order`, `OrderStatus` (+ `cancelled`) в `src/data/types.ts`
+- [x] T005 [P] Добавить `mapOrderRow`, `mapOrderInput` в `api/lib/mappers.js`
+- [x] T006 [P] Создать `api/lib/orderStatus.js` — `assertValidTransition(from, to)` по матрице spec
+- [x] T007 Реализовать `createOrder` (валидация photo|comment; фото ≤10 МБ, `contentType` image/*), `listOrders({ status })`, `updateOrderStatus` в `api/lib/db.js`
+- [x] T008 Расширить `uploadImage` — bucket `order-images` в whitelist `api/lib/db.js`
+- [x] T009 Реализовать `handleCreateOrder` (400 до Storage при invalid photo), `handleAdminListOrders`, `handleAdminUpdateOrder` в `api/lib/handlers.js`
+- [x] T010 Зарегистрировать `POST /api/orders`, `GET /api/admin/orders`, `PATCH /api/admin/orders/:id` в `api/lib/router.js`
 
 **Checkpoint**: `curl POST /api/orders` (с comment); пустой body → 400; admin endpoints отвечают
 
@@ -66,10 +66,10 @@ description: "Задачи: Заявки в Supabase (001-orders-db)"
 
 ### Реализация User Story 1
 
-- [ ] T011 [P] [US1] Создать `src/data/api/orderApi.ts` — `createOrder()` по контракту `contracts/orders-api.md`
-- [ ] T012 [US1] Переписать `src/helpers/submitOrderRequest.ts` — только `createOrder()`; убрать Share/`openMasterContact`
-- [ ] T013 [US1] Обновить `src/pages/OrderRequestPage/OrderRequestPage.tsx` — client validation (фото или комментарий); success «Заявка сохранена»; убрать UI «написали через Share/Telegram»
-- [ ] T014 [US1] Обработать 401/400/500 в `OrderRequestPage` с понятными сообщениями (без Telegram fallback)
+- [x] T011 [P] [US1] Создать `src/data/api/orderApi.ts` — `createOrder()` по контракту `contracts/orders-api.md`
+- [x] T012 [US1] Переписать `src/helpers/submitOrderRequest.ts` — только `createOrder()`; убрать Share/`openMasterContact`
+- [x] T013 [US1] Обновить `src/pages/OrderRequestPage/OrderRequestPage.tsx` — client validation (фото или комментарий); success «Заявка сохранена»; убрать UI «написали через Share/Telegram»
+- [x] T014 [US1] Обработать 401/400/500 в `OrderRequestPage` с понятными сообщениями (без Telegram fallback)
 
 **Checkpoint**: полный flow `/order` → запись в Supabase → success screen (без Telegram)
 
@@ -83,10 +83,10 @@ description: "Задачи: Заявки в Supabase (001-orders-db)"
 
 ### Реализация User Story 2
 
-- [ ] T015 [P] [US2] Создать `src/data/api/adminOrdersApi.ts` — `fetchAdminOrders(status?)`, `updateOrderStatus`
-- [ ] T016 [US2] Создать `src/pages/admin/AdminOrdersPage.tsx` — вкладки Активные/Архив, превью фото; кнопки только для допустимых переходов (`done`/`cancelled` — без действий)
-- [ ] T017 [US2] Добавить маршрут `/admin/orders` в `src/navigation/routes.tsx`
-- [ ] T018 [US2] Добавить ссылку «Заявки» в `src/pages/admin/AdminHomePage.tsx`
+- [x] T015 [P] [US2] Создать `src/data/api/adminOrdersApi.ts` — `fetchAdminOrders(status?)`, `updateOrderStatus`
+- [x] T016 [US2] Создать `src/pages/admin/AdminOrdersPage.tsx` — вкладки Активные/Архив, превью фото; кнопки только для допустимых переходов (`done`/`cancelled` — без действий)
+- [x] T017 [US2] Добавить маршрут `/admin/orders` в `src/navigation/routes.tsx`
+- [x] T018 [US2] Добавить ссылку «Заявки» в `src/pages/admin/AdminHomePage.tsx`
 
 **Checkpoint**: мастер управляет статусами; терминальные статусы не меняются (400 с API)
 
@@ -100,9 +100,9 @@ description: "Задачи: Заявки в Supabase (001-orders-db)"
 
 ### Реализация User Story 3
 
-- [ ] T019 [P] [US3] Создать `api/lib/telegramNotify.js` — `notifyMasterNewOrder()` (имя, comment preview, `APP_BASE_URL/#/admin/orders`)
-- [ ] T020 [US3] Вызвать notify после `createOrder` в `api/lib/handlers.js` (ошибка notify не откатывает заявку)
-- [ ] T021 [US3] Документировать `MASTER_TELEGRAM_CHAT_ID`, `APP_BASE_URL` в `README.md` + добавить `/api/orders`, `/api/admin/orders` в таблицу API
+- [x] T019 [P] [US3] Создать `api/lib/telegramNotify.js` — `notifyMasterNewOrder()` (имя, comment preview, `APP_BASE_URL/#/admin/orders`)
+- [x] T020 [US3] Вызвать notify после `createOrder` в `api/lib/handlers.js` (ошибка notify не откатывает заявку)
+- [x] T021 [US3] Документировать `MASTER_TELEGRAM_CHAT_ID`, `APP_BASE_URL` в `README.md` + добавить `/api/orders`, `/api/admin/orders` в таблицу API
 
 **Checkpoint**: без env — заявки работают как US1+US2
 
@@ -112,9 +112,24 @@ description: "Задачи: Заявки в Supabase (001-orders-db)"
 
 **Цель**: документация, smoke, checklist
 
-- [ ] T022 Выполнить smoke по `specs/001-orders-db/quickstart.md` локально (`npm run dev`)
-- [ ] T023 Обновить раздел 3 в `CHECKLIST.md`: БД, админка, статусы incl. `cancelled`; primary flow — API, не Share
-- [ ] T024 [P] Проверить `npm run build` без ошибок TypeScript
+- [x] T022 Выполнить smoke по `specs/001-orders-db/quickstart.md` локально (`npm run dev`) — после SQL migration в Supabase
+- [x] T023 Обновить раздел 3 в `CHECKLIST.md`: БД, админка, статусы incl. `cancelled`; primary flow — API, не Share
+- [x] T024 [P] Проверить `npm run build` без ошибок TypeScript
+
+---
+
+## Phase 7: P4 — Удаление фото в архиве (план)
+
+**Цель**: мастер освобождает Storage, не теряя запись заявки
+
+**Независимый тест**: заявка `done` с фото → «Удалить фото» → файл gone из Storage, `photo_url` null, строка в архиве остаётся
+
+- [x] T025 [P4] `api/lib/db.js` — `deleteOrderPhoto(id)`: parse path из `photo_url`, `storage.remove`, update `photo_url = null`; только если `status` ∈ `done`, `cancelled`
+- [x] T026 [P4] `api/lib/handlers.js` + `router.js` — `DELETE /api/admin/orders/:id/photo` (admin)
+- [x] T027 [P4] `adminOrdersApi.ts` + `AdminOrdersPage.tsx` — кнопка «Удалить фото» во вкладке «Архив», confirm, скрыть если нет `photoUrl`
+- [x] T028 [P4] Обновить `contracts/orders-api.md` и smoke в `quickstart.md`
+
+**Checkpoint**: после удаления фото заявка видна в архиве без превью; повторный DELETE → 404 или 400
 
 ---
 
@@ -134,6 +149,8 @@ Phase 4 (US2) — зависит от US1 (нужны заявки в БД)
 Phase 5 (US3) — зависит от handleCreateOrder (Phase 2)
     ↓
 Phase 6 (Polish)
+    ↓
+Phase 7 (P4) — удаление фото в архиве (опционально)
 ```
 
 ### User Story Dependencies
@@ -184,14 +201,16 @@ Phase 6 (Polish)
 
 | Метрика | Значение |
 |---------|----------|
-| **Всего задач** | 24 |
+| **Всего задач** | 28 (все ✅) |
 | **Setup** | 3 |
 | **Foundational** | 7 |
 | **US1 (P1)** | 4 |
 | **US2 (P2)** | 4 |
 | **US3 (P3)** | 3 |
 | **Polish** | 3 |
+| **P4 (план)** | 4 ✅ |
 | **MVP scope** | Phase 1–3 (T001–T014) |
+| **v1 + P4 реализовано** | T001–T028 |
 
 ---
 
@@ -202,3 +221,4 @@ Phase 6 (Polish)
 - RLS для `orders`: только service role, без public read
 - **Не** восстанавливать Share/Telegram после успешного POST (spec clarify Q1)
 - Статус `cancelled` — только из `new` или `in_progress`
+- **P4**: удаление фото только в архиве; авто-очистки при `done` нет

@@ -3,6 +3,7 @@ import type { ComponentType } from 'react';
 import { AdminFabricFormPage } from '@/pages/admin/AdminFabricFormPage';
 import { AdminFabricsPage } from '@/pages/admin/AdminFabricsPage';
 import { AdminHomePage } from '@/pages/admin/AdminHomePage';
+import { AdminOrdersPage } from '@/pages/admin/AdminOrdersPage';
 import { AdminPortfolioFormPage } from '@/pages/admin/AdminPortfolioFormPage';
 import { AdminPortfolioPage } from '@/pages/admin/AdminPortfolioPage';
 import { FabricDetailPage } from '@/pages/FabricDetailPage/FabricDetailPage';
@@ -21,6 +22,7 @@ export const routes: Route[] = [
   { path: '/fabrics/:id', Component: FabricDetailPage },
   { path: '/order', Component: OrderRequestPage },
   { path: '/admin', Component: AdminHomePage },
+  { path: '/admin/orders', Component: AdminOrdersPage },
   { path: '/admin/fabrics', Component: AdminFabricsPage },
   { path: '/admin/fabrics/new', Component: AdminFabricFormPage },
   { path: '/admin/fabrics/:id/edit', Component: AdminFabricFormPage },

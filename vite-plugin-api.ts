@@ -22,7 +22,10 @@ function sendJson(res: ServerResponse, status: number, body: unknown) {
   res.end(JSON.stringify(body));
 }
 
-async function handleApiRequest(req: IncomingMessage, res: ServerResponse, pathname: string) {
+async function handleApiRequest(req: IncomingMessage, res: ServerResponse, url: string) {
+  const [pathname, search = ''] = url.split('?');
+  const query = Object.fromEntries(new URLSearchParams(search).entries());
+
   const needsBody =
     req.method === 'POST' ||
     req.method === 'PUT' ||
@@ -35,6 +38,7 @@ async function handleApiRequest(req: IncomingMessage, res: ServerResponse, pathn
     pathname,
     authHeader: req.headers.authorization,
     body,
+    query,
   });
 
   sendJson(res, result.status, result.body);
@@ -46,7 +50,7 @@ export function apiDevPlugin(): Plugin {
     apply: 'serve',
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
-        const url = req.url?.split('?')[0] ?? '';
+        const url = req.url ?? '';
         if (!url.startsWith('/api/')) {
           next();
           return;

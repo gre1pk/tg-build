@@ -122,6 +122,12 @@ src/pages/admin/AdminHomePage.tsx
 10. `api/lib/telegramNotify.js`: имя клиента, комментарий ≤100 симв. или «Без комментария», ссылка `{APP_BASE_URL}/#/admin/orders`.
 11. Env: `MASTER_TELEGRAM_CHAT_ID`, опционально `APP_BASE_URL` для ссылки в сообщении.
 
+### Шаг 5 — Очистка Storage P4 (план, не v1)
+
+12. В «Архиве» `/admin/orders` — кнопка «Удалить фото» (только `done` / `cancelled`).
+13. API: удаление объекта из `order-images` + `photo_url = null` в `orders`; строка заявки не удаляется.
+14. Подтверждение в UI (confirm), чтобы не снести фото случайно.
+
 ## Complexity Tracking
 
 | Нарушение | Зачем | Почему проще не подошло |
@@ -132,8 +138,4 @@ src/pages/admin/AdminHomePage.tsx
 
 ## Следующий шаг
 
-```text
-/speckit-implement
-```
-
-Приступить к Phase 1–3 (MVP **T001–T014**).
+v1 + P4 (T001–T028) реализованы. Следующий шаг — деплой на production или новая фича.

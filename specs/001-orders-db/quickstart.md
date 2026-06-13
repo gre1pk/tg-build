@@ -12,6 +12,8 @@
 npm run dev
 ```
 
+> Заявки требуют live Supabase (`npm run dev` + `.env`). В `npm run dev:mock` POST `/api/orders` недоступен.
+
 1. Открыть `http://localhost:5173/#/order`
 2. Авторизация через mock-auth (`POST /api/auth/dev`, `VITE_MOCK_TELEGRAM_ID` в `.env`)
 3. Прикрепить фото **или** написать комментарий → «Отправить»
@@ -20,6 +22,8 @@ npm run dev
 6. `http://localhost:5173/#/admin/orders` → вкладка «Активные» → заявка видна
 7. Сменить статус → `in_progress` → `done`; заявка уходит в «Архив»
 8. Новая заявка → «Отклонить» → `cancelled` → «Архив»
+9. В «Архиве» у заявки с фото → «Удалить фото» → confirm → превью исчезает, строка остаётся
+10. Повторный `DELETE .../photo` для той же заявки → `400` (нет фото)
 
 ### Негативные кейсы
 
@@ -56,6 +60,10 @@ curl -s -X PATCH "http://localhost:5173/api/admin/orders/{id}" \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"status":"in_progress"}'
+
+# Удалить фото (только done/cancelled)
+curl -s -X DELETE "http://localhost:5173/api/admin/orders/{id}/photo" \
+  -H "Authorization: Bearer $ADMIN_TOKEN"
 ```
 
 ## Production smoke

@@ -80,3 +80,38 @@ drop trigger if exists portfolio_updated_at on public.portfolio;
 create trigger portfolio_updated_at
   before update on public.portfolio
   for each row execute function public.set_updated_at();
+
+-- Client orders
+create table if not exists public.orders (
+  id uuid primary key default gen_random_uuid(),
+  telegram_id bigint not null,
+  user_first_name text not null,
+  user_username text,
+  comment text,
+  fabric_id uuid references public.fabrics(id) on delete set null,
+  fabric_snapshot text,
+  photo_url text,
+  status text not null default 'new'
+    check (status in ('new', 'in_progress', 'done', 'cancelled')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists orders_created_at_idx on public.orders (created_at desc);
+create index if not exists orders_status_idx on public.orders (status, created_at desc);
+
+alter table public.orders enable row level security;
+
+drop trigger if exists orders_updated_at on public.orders;
+create trigger orders_updated_at
+  before update on public.orders
+  for each row execute function public.set_updated_at();
+
+insert into storage.buckets (id, name, public)
+values ('order-images', 'order-images', true)
+on conflict (id) do update set public = excluded.public;
+
+drop policy if exists "order_images_public_read" on storage.objects;
+create policy "order_images_public_read"
+  on storage.objects for select
+  using (bucket_id = 'order-images');

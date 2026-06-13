@@ -139,3 +139,17 @@ No photo URL, no `telegramId` in message.
 | `APP_BASE_URL` | P3 recommended | Base URL for admin link in notify (no trailing slash) |
 
 Existing: `TELEGRAM_BOT_TOKEN`, `SUPABASE_*`, `ADMIN_TELEGRAM_IDS`, `AUTH_JWT_SECRET`
+
+---
+
+## DELETE /api/admin/orders/:id/photo
+
+**Auth**: admin
+
+**Preconditions**: order `status` ∈ `done`, `cancelled`; `photo_url` not null
+
+**Behavior**: remove file from `order-images` bucket; set `photo_url = null`; order row unchanged
+
+**Response** `200`: updated order object (`photoUrl: null`)
+
+**Errors**: `400` (not archive / no photo), `403`, `404`

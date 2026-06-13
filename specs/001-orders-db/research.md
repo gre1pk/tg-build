@@ -93,3 +93,13 @@
 **Decision**: env `APP_BASE_URL` (optional), например `https://tg-build-ivory.vercel.app`. Fallback: `https://${process.env.VERCEL_URL}` на Vercel или `http://localhost:5173` локально.
 
 **Rationale**: Telegram message требует абсолютный URL; hash-route `/#/admin/orders` для SPA.
+
+## R10: Очистка фото заявок (P4, план)
+
+**Decision**: ручное удаление фото **только в архиве** (`done`, `cancelled`); не авто при смене статуса.
+
+**Rationale**: мастер может ещё смотреть фото на активной заявке; в архиве фото реже нужно; освобождает Supabase Storage (1 GB free tier).
+
+**Alternatives considered**:
+- Авто-delete при `done` — риск потерять превью, если мастер вернётся к заявке.
+- Удаление всей заявки — не запрашивалось; нужна история текстов/метаданных.
