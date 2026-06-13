@@ -1,5 +1,6 @@
 import { type FC, useState } from 'react';
 
+import { AdminTopActions } from '@/components/AdminTopActions/AdminTopActions';
 import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
@@ -42,14 +43,11 @@ export const AdminPortfolioPage: FC = () => {
         <div className={page.page}>
           <PageHeader title="Портфолио" lead="Примеры работ «до / после» на главной" />
 
-          <div className={admin.topActions}>
-            <Link to="/admin" className={classNames(btn.btn, btn.btnSecondary)}>
-              ← Назад
-            </Link>
+          <AdminTopActions>
             <Link to="/admin/portfolio/new" className={classNames(btn.btn, btn.btnPrimary)}>
               Добавить
             </Link>
-          </div>
+          </AdminTopActions>
 
           {actionError && <p className={empty.emptyText}>{actionError}</p>}
 

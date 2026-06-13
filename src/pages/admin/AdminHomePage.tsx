@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import { AdminExitButton } from '@/components/AdminExitButton/AdminExitButton';
 import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
@@ -22,23 +23,26 @@ export const AdminHomePage: FC = () => {
           <nav className={admin.nav} aria-label="Разделы админки">
             <Link
               to="/admin/orders"
-              className={classNames(btn.btn, btn.btnSecondary, admin.navLink)}
+              className={classNames(btn.btn, btn.btnSecondaryOutlined, admin.navLink)}
             >
               Заявки
             </Link>
             <Link
               to="/admin/fabrics"
-              className={classNames(btn.btn, btn.btnSecondary, admin.navLink)}
+              className={classNames(btn.btn, btn.btnSecondaryOutlined, admin.navLink)}
             >
               Ткани
             </Link>
             <Link
               to="/admin/portfolio"
-              className={classNames(btn.btn, btn.btnSecondary, admin.navLink)}
+              className={classNames(btn.btn, btn.btnSecondaryOutlined, admin.navLink)}
             >
               Портфолио
             </Link>
           </nav>
+          <div className={admin.homeExit}>
+            <AdminExitButton fullWidth />
+          </div>
         </div>
       </Page>
     </AdminGate>

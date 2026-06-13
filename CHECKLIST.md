@@ -18,6 +18,8 @@
 - [x] Impeccable design skill + PRODUCT.md + DESIGN.md
 - [x] SCSS modules (`src/ui/`, `src/styles/global.scss`)
 - [x] UI: hero, каталог, портфолио, шаги процесса, форма заявки
+- [x] Hero: одно showcase-фото (без «до/после» в шапке)
+- [x] Портфолио на главной: вертикальное «до → после» на полную ширину карточки
 
 ---
 
@@ -165,6 +167,7 @@
 - [x] `api/lib/adminAuth.js` — JWT + whitelist + `requireStaff`
 - [x] GET `/api/admin/me` — `{ role, isStaff, user }`
 - [x] Staff-кнопка на клиентских экранах → `/admin`
+- [x] Кнопка «В приложение» на всех `/admin/*` → `/#/`
 - [x] 403 для не-staff на `/api/admin/*`
 
 ### Этап 4 — Загрузка фото
@@ -192,4 +195,4 @@
 
 ---
 
-_Последнее обновление: 2026-06-12_
+_Последнее обновление: 2026-06-13_

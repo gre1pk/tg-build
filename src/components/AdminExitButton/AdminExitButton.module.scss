@@ -1,0 +1,14 @@
+.exit {
+  gap: var(--app-space-xs);
+  font-size: 0.9375rem;
+  flex-shrink: 0;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.icon {
+  flex-shrink: 0;
+  opacity: 0.88;
+}

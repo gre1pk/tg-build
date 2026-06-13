@@ -1,0 +1,19 @@
+.bar {
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.back {
+  flex: 1 1 auto;
+  min-width: min(100%, 120px);
+}
+
+.exit {
+  flex: 1 1 auto;
+  min-width: min(100%, 140px);
+  margin-left: auto;
+}
+
+.bar > :not(.exit):not(.back) {
+  flex: 1 1 auto;
+}

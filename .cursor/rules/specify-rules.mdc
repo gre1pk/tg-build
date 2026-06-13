@@ -3,10 +3,10 @@ alwaysApply: true
 ---
 
 <!-- SPECKIT START -->
-Текущая фича: **`specs/002-master-role-ui/plan.md`** (tasks: T001–T024 в `tasks.md`).
+Текущая фича: **`specs/003-admin-portfolio-polish/plan.md`** (tasks: T001–T024 в `tasks.md`).
 
 Для контекста по технологиям, структуре проекта, shell-командам и плану фичи читай
-`specs/002-master-role-ui/plan.md` и `.specify/memory/constitution.md`.
+`specs/003-admin-portfolio-polish/plan.md` и `.specify/memory/constitution.md`.
 
 **Язык (SpecKit)**: все артефакты SpecKit — на **русском**:
 

@@ -40,3 +40,22 @@
   background: var(--app-surface-2);
   color: var(--tg-theme-text-color);
 }
+
+.btnSecondaryOutlined {
+  background: var(--app-surface-2);
+  color: var(--app-button-bg);
+  border: 1.5px solid color-mix(in oklch, var(--app-button-bg) 35%, var(--app-border));
+  box-shadow: 0 1px 2px color-mix(in oklch, var(--app-button-bg) 8%, transparent);
+}
+
+.btnSizeLg {
+  min-height: 52px;
+  padding: 14px 24px;
+  font-size: 1.0625rem;
+}
+
+.btnSizeMd {
+  min-height: 44px;
+  padding: 11px 20px;
+  font-size: 0.9375rem;
+}

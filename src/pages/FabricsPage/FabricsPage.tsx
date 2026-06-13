@@ -122,7 +122,7 @@ export const FabricsPage: FC = () => {
             </p>
             <Link
               to="/order"
-              className={classNames(btn.btn, btn.btnSecondary, empty.emptyAction)}
+              className={classNames(btn.btn, btn.btnSecondaryOutlined, empty.emptyAction)}
             >
               Оставить заявку
             </Link>

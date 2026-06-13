@@ -2,14 +2,57 @@
   display: flex;
   justify-content: flex-end;
   margin: 0 var(--app-space) var(--app-space-xs);
+  min-width: 0;
 }
 
-.link {
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-xs);
+  max-width: 100%;
   min-height: var(--app-touch-min);
-  padding: var(--app-space-xs) var(--app-space-sm);
-  border-radius: var(--app-radius-xs);
-  background: var(--app-surface-2);
+  padding: 5px 14px 5px 5px;
+  border-radius: 999px;
   border: 1px solid var(--app-border);
+  background: var(--app-surface-2);
+  color: var(--tg-theme-text-color);
   font-size: 0.8125rem;
   font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  overflow: hidden;
+  transition: opacity var(--app-duration) var(--app-ease-out);
+
+  @include focus-ring;
+
+  &:active {
+    opacity: 0.88;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.iconBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 7px;
+  border-radius: 999px;
+  background: var(--app-accent-muted);
+  color: var(--app-accent-emphasis);
+}
+
+.icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }

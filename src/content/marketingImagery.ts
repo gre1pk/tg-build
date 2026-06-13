@@ -26,5 +26,5 @@ export const DEMO_AFTER_INTERIOR = unsplashPhoto('photo-1567016432779-094069958e
 export const DEMO_BEFORE_CHAIRS = unsplashPhoto('photo-1506439773649-6e0eb8cfb237', 600);
 export const DEMO_AFTER_CHAIR = unsplashPhoto('photo-1617806118233-18e1de247200', 600);
 
-export const HERO_BEFORE_IMAGE = DEMO_BEFORE_CHAIR;
-export const HERO_AFTER_IMAGE = DEMO_AFTER_SOFA;
+/** Hero on home — single showcase sofa (no before/after split). */
+export const HERO_IMAGE = DEMO_AFTER_SOFA;
