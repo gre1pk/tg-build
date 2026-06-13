@@ -129,6 +129,8 @@ src/
 
 ## API
 
+Backend: одна serverless-функция `api/index.js` (лимит Hobby — 12 функций). Логика в `server/lib/` — **не** в `api/`, иначе Vercel считает каждый `.js` отдельной функцией.
+
 | Endpoint | Метод | Описание |
 |----------|-------|----------|
 | `/api/auth/telegram` | POST | `{ "initData": "..." }` → `{ token, user }` |
@@ -159,4 +161,4 @@ cp .env.example .env
 ## Документация Telegram
 
 - [Telegram Mini Apps](https://docs.telegram-mini-apps.com/)
-- [Валидация initData](https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app) — `api/lib/validateInitData.ts`
+- [Валидация initData](https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app) — `server/lib/validateInitData.js`

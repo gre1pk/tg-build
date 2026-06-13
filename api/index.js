@@ -1,4 +1,4 @@
-const { routeApi } = require('./lib/router');
+const { routeApi } = require('../server/lib/router');
 
 function getPathname(req) {
   const route = req.query.route;

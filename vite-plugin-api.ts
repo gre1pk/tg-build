@@ -3,7 +3,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Plugin } from 'vite';
 
 const require = createRequire(import.meta.url);
-const { routeApi } = require('./api/lib/router.js');
+const { routeApi } = require('./server/lib/router.js');
 
 async function readJsonBody(req: IncomingMessage): Promise<unknown> {
   const chunks: Buffer[] = [];
