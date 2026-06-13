@@ -1,6 +1,6 @@
 import { type FC, useCallback, useEffect, useState } from 'react';
 
-import { Link } from '@/components/Link/Link';
+import { AdminTopActions } from '@/components/AdminTopActions/AdminTopActions';
 import { Page } from '@/components/Page';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
 import { classNames } from '@/css/classnames';
@@ -98,11 +98,7 @@ export const AdminOrdersPage: FC = () => {
         <div className={page.page}>
           <PageHeader title="Заявки" lead="Активные заявки клиентов и архив" />
 
-          <div className={admin.topActions}>
-            <Link to="/admin" className={classNames(btn.btn, btn.btnSecondary)}>
-              ← Назад
-            </Link>
-          </div>
+          <AdminTopActions />
 
           <div className={admin.tabs} role="tablist" aria-label="Фильтр заявок">
             <button

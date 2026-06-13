@@ -1,6 +1,6 @@
 .compare {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--app-space-xs);
 }
 
@@ -24,11 +24,11 @@
 }
 
 .hero .shot:first-child {
-  border-radius: var(--app-radius) 0 0 0;
+  border-radius: var(--app-radius) var(--app-radius) 0 0;
 }
 
 .hero .shot:last-child {
-  border-radius: 0 var(--app-radius) 0 0;
+  border-radius: 0 0 var(--app-radius) var(--app-radius);
 }
 
 .featured .shot,
@@ -53,7 +53,7 @@
 }
 
 .compact .image {
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 3;
 }
 
 .label {
@@ -76,26 +76,4 @@
 
 .divider {
   display: none;
-}
-
-@media (min-width: 380px) {
-  .hero {
-    position: relative;
-  }
-
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 28px;
-    height: 28px;
-    margin: -14px 0 0 -14px;
-    border-radius: 50%;
-    background: var(--app-surface);
-    border: 2px solid var(--app-border);
-    box-shadow: 0 2px 8px color-mix(in oklch, var(--app-text) 12%, transparent);
-    z-index: 1;
-    pointer-events: none;
-  }
 }

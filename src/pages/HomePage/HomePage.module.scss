@@ -6,6 +6,21 @@
   border: 1px solid var(--app-border);
 }
 
+.heroMedia {
+  margin: 0;
+  overflow: hidden;
+  background: var(--app-surface-2);
+}
+
+.heroImage {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: clamp(180px, 48vw, 260px);
+  object-fit: cover;
+  object-position: center 42%;
+}
+
 .heroContent {
   padding: var(--app-space) var(--app-space) var(--app-space-sm);
   color: var(--tg-theme-text-color);

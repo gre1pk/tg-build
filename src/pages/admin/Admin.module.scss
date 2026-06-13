@@ -67,8 +67,13 @@
 
 .topActions {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--app-space-sm);
   margin: 0 var(--app-space) var(--app-space);
+}
+
+.homeExit {
+  margin: var(--app-space-sm) var(--app-space) var(--app-space-lg);
 }
 
 .tabs {

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import { AdminExitButton } from '@/components/AdminExitButton/AdminExitButton';
 import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
@@ -39,6 +40,9 @@ export const AdminHomePage: FC = () => {
               Портфолио
             </Link>
           </nav>
+          <div className={admin.homeExit}>
+            <AdminExitButton fullWidth />
+          </div>
         </div>
       </Page>
     </AdminGate>

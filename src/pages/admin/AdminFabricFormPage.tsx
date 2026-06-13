@@ -1,6 +1,7 @@
 import { type FC, type FormEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { AdminTopActions } from '@/components/AdminTopActions/AdminTopActions';
 import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
@@ -123,6 +124,8 @@ export const AdminFabricFormPage: FC = () => {
             title={isEdit ? 'Редактировать ткань' : 'Новая ткань'}
             lead="Фото, название, материал и цена за метр"
           />
+
+          <AdminTopActions backTo="/admin/fabrics" />
 
           <form className={form.orderForm} onSubmit={(e) => void handleSubmit(e)}>
             <ImageUploadField

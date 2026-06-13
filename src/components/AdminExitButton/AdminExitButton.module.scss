@@ -1,0 +1,18 @@
+.exit {
+  gap: var(--app-space-xs);
+  border: 1px solid var(--app-border);
+  background: var(--app-surface-2);
+  color: var(--tg-theme-text-color);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.icon {
+  flex-shrink: 0;
+  opacity: 0.88;
+}

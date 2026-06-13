@@ -1,7 +1,6 @@
 import { type FC, useState } from 'react';
 
 import { useAuth } from '@/auth/useAuth';
-import { BeforeAfterCompare } from '@/components/BeforeAfterCompare/BeforeAfterCompare';
 import { FabricGridSkeleton } from '@/components/FabricGridSkeleton/FabricGridSkeleton';
 import { FabricPreviewCard } from '@/components/FabricPreviewCard/FabricPreviewCard';
 import { Link } from '@/components/Link/Link';
@@ -21,7 +20,7 @@ import sk from '@/ui/Skeleton.module.scss';
 import textLink from '@/ui/TextLink.module.scss';
 import { Placeholder } from '@telegram-apps/telegram-ui';
 
-import { HERO_AFTER_IMAGE, HERO_BEFORE_IMAGE } from '@/content/marketingImagery';
+import { HERO_IMAGE } from '@/content/marketingImagery';
 import preview from '@/components/FabricPreviewCard/FabricPreviewCard.module.scss';
 import home from './HomePage.module.scss';
 
@@ -93,15 +92,17 @@ export const HomePage: FC = () => {
       <div className={page.page}>
         <StaffEntryButton />
         <section className={home.hero} aria-label="Перетяжка мебели">
-          <BeforeAfterCompare
-            beforeImageUrl={HERO_BEFORE_IMAGE}
-            afterImageUrl={HERO_AFTER_IMAGE}
-            beforeAlt="Изношенное кресло до перетяжки"
-            afterAlt="Обновлённый диван после перетяжки"
-            variant="hero"
-            imageWidth={400}
-            imageHeight={300}
-          />
+          <figure className={home.heroMedia}>
+            <img
+              src={HERO_IMAGE}
+              alt="Аккуратно перетянутый диван"
+              className={home.heroImage}
+              width={800}
+              height={600}
+              loading="eager"
+              fetchPriority="high"
+            />
+          </figure>
           <div className={home.heroContent}>
             <p className={home.heroEyebrow}>Ручная перетяжка</p>
             <h1 className={home.heroTitle}>{greeting}</h1>

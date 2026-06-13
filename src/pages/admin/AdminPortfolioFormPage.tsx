@@ -1,6 +1,7 @@
 import { type FC, type FormEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { AdminTopActions } from '@/components/AdminTopActions/AdminTopActions';
 import { Link } from '@/components/Link/Link';
 import { Page } from '@/components/Page';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
@@ -124,6 +125,8 @@ export const AdminPortfolioFormPage: FC = () => {
             title={isEdit ? 'Редактировать работу' : 'Новая работа'}
             lead="Фото до и после перетяжки"
           />
+
+          <AdminTopActions backTo="/admin/portfolio" />
 
           <form className={form.orderForm} onSubmit={(e) => void handleSubmit(e)}>
             <div className={form.field}>
