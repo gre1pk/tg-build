@@ -1,4 +1,4 @@
-const { routeApi } = require('./lib/router');
+const { routeApi } = require('../server/lib/router');
 
 function getPathname(req) {
   const route = req.query.route;
@@ -40,6 +40,7 @@ module.exports = async function handler(req, res) {
       authHeader: req.headers.authorization,
       body: req.body,
       query,
+      headers: req.headers,
     });
     return res.status(result.status).json(result.body);
   } catch (err) {

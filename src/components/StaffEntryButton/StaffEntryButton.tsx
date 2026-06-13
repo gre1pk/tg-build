@@ -42,7 +42,12 @@ const MasterIcon: FC = () => (
   </svg>
 );
 
-export const StaffEntryButton: FC = () => {
+interface StaffEntryButtonProps {
+  /** When true, omits outer margin (for use inside AppHeader). */
+  inline?: boolean;
+}
+
+export const StaffEntryButton: FC<StaffEntryButtonProps> = ({ inline = false }) => {
   const { isStaff, role, loading } = useStaff();
 
   if (loading || !isStaff || !role) {
@@ -53,7 +58,7 @@ export const StaffEntryButton: FC = () => {
   const label = isAdmin ? 'Админка' : 'Панель мастера';
 
   return (
-    <div className={styles.wrap}>
+    <div className={inline ? styles.inline : styles.wrap}>
       <Link to="/admin" className={styles.badge} aria-label={label}>
         <span className={styles.iconBadge} aria-hidden>
           {isAdmin ? <AdminIcon /> : <MasterIcon />}

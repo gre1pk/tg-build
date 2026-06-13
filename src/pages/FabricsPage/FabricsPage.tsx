@@ -1,11 +1,11 @@
 import { type FC, useMemo, useState } from 'react';
 
+import { AppHeader } from '@/components/AppHeader/AppHeader';
 import { FabricCard } from '@/components/FabricCard/FabricCard';
 import { FabricGridSkeleton } from '@/components/FabricGridSkeleton/FabricGridSkeleton';
 import { Link } from '@/components/Link/Link';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
 import { Page } from '@/components/Page';
-import { StaffEntryButton } from '@/components/StaffEntryButton/StaffEntryButton';
 import { classNames } from '@/css/classnames';
 import { useFabrics } from '@/hooks/useFabrics';
 import btn from '@/ui/Button.module.scss';
@@ -35,6 +35,7 @@ export const FabricsPage: FC = () => {
     return (
       <Page>
         <div className={page.page}>
+          <AppHeader />
           <PageHeader
             title="Каталог тканей"
             lead="Крупные образцы — оцените фактуру и оттенок перед выбором"
@@ -70,7 +71,7 @@ export const FabricsPage: FC = () => {
   return (
     <Page>
       <div className={page.page}>
-        <StaffEntryButton />
+        <AppHeader />
         <PageHeader
           title="Каталог тканей"
           lead="Крупные образцы — оцените фактуру и оттенок перед выбором"

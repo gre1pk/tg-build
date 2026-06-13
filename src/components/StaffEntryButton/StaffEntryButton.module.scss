@@ -5,6 +5,12 @@
   min-width: 0;
 }
 
+.inline {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
 .badge {
   display: inline-flex;
   align-items: center;

@@ -26,18 +26,6 @@
   color: var(--tg-theme-text-color);
 }
 
-.heroEyebrow {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  margin: 0 0 var(--app-space-xs);
-  padding: var(--app-space-xs) var(--app-space-sm);
-  border-radius: var(--app-radius-xs);
-  background: var(--app-accent-muted);
-  color: var(--app-accent-emphasis);
-}
-
 .portfolioStack {
   display: flex;
   flex-direction: column;

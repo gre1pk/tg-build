@@ -14,6 +14,8 @@ import {
   themeParamsState,
 } from '@telegram-apps/sdk-react';
 
+import { syncThemeColorMeta } from '@/helpers/syncThemeColorMeta';
+
 export async function init(options: { debug: boolean; mockForMacOS: boolean }): Promise<void> {
   setDebug(options.debug);
   initSDK();
@@ -48,6 +50,7 @@ export async function init(options: { debug: boolean; mockForMacOS: boolean }): 
   if (miniApp.mountSync.isAvailable()) {
     miniApp.mountSync();
     bindThemeParamsCssVars();
+    syncThemeColorMeta();
   }
 
   mountViewport.isAvailable() &&

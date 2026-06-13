@@ -1,12 +1,4 @@
-function getAppBaseUrl() {
-  if (process.env.APP_BASE_URL) {
-    return process.env.APP_BASE_URL.replace(/\/$/, '');
-  }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-  return 'http://localhost:5173';
-}
+const { getAppBaseUrl } = require('./telegramBot');
 
 function buildCommentPreview(comment) {
   const trimmed = comment?.trim();

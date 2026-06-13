@@ -57,6 +57,29 @@ npm run dev:mock
 2. `/newapp` → URL Vercel (например `https://your-app.vercel.app`)
 3. Токен бота — только в `TELEGRAM_BOT_TOKEN` на Vercel / в `.env` локально
 
+### Приветствие на `/start`
+
+После деплоя зарегистрируйте webhook (один раз):
+
+```bash
+# Секрет опционален, но рекомендуется (openssl rand -hex 16)
+export TELEGRAM_BOT_TOKEN=...
+export APP_BASE_URL=https://your-app.vercel.app
+export TELEGRAM_WEBHOOK_SECRET=your_random_secret
+
+curl -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/setWebhook" \
+  -H "Content-Type: application/json" \
+  -d "{\"url\":\"${APP_BASE_URL}/api/telegram/webhook\",\"secret_token\":\"${TELEGRAM_WEBHOOK_SECRET}\",\"allowed_updates\":[\"message\"]}"
+```
+
+Добавьте `TELEGRAM_WEBHOOK_SECRET` в env на Vercel (тот же, что в `setWebhook`).
+
+Пользователь нажимает **Start** в чате с ботом → приходит сообщение с инструкцией и кнопкой **«Открыть приложение»** (Mini App).
+
+Проверка webhook: `curl "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getWebhookInfo"`
+
+Локально webhook не работает без туннеля (ngrok и т.п.) — тестируйте на staging/production.
+
 ## Каталог тканей
 
 Источник данных: [`data/fabrics.json`](data/fabrics.json).
@@ -106,6 +129,8 @@ src/
 
 ## API
 
+Backend: одна serverless-функция `api/index.js` (лимит Hobby — 12 функций). Логика в `server/lib/` — **не** в `api/`, иначе Vercel считает каждый `.js` отдельной функцией.
+
 | Endpoint | Метод | Описание |
 |----------|-------|----------|
 | `/api/auth/telegram` | POST | `{ "initData": "..." }` → `{ token, user }` |
@@ -136,4 +161,4 @@ cp .env.example .env
 ## Документация Telegram
 
 - [Telegram Mini Apps](https://docs.telegram-mini-apps.com/)
-- [Валидация initData](https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app) — `api/lib/validateInitData.ts`
+- [Валидация initData](https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app) — `server/lib/validateInitData.js`

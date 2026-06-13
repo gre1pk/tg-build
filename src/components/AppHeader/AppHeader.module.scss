@@ -1,0 +1,75 @@
+.header {
+  position: relative;
+  margin: 0 var(--app-space);
+  padding-bottom: var(--app-space-xs);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-sm);
+  min-height: var(--app-touch-min);
+}
+
+.full .bar {
+  justify-content: center;
+}
+
+.logoSlot {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.full .logoSlot {
+  justify-content: center;
+}
+
+.compact .logoSlot {
+  flex: 0 1 auto;
+}
+
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--app-radius-xs);
+  text-decoration: none;
+  line-height: 0;
+
+  @include focus-ring;
+
+  &:active {
+    opacity: 0.88;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:active {
+      opacity: 1;
+    }
+  }
+}
+
+.logoFull {
+  display: block;
+  width: min(220px, 72vw);
+  height: auto;
+}
+
+.logoCompact {
+  display: block;
+  width: 35px;
+  height: auto;
+}
+
+.staffSlot {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.full .staffSlot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+}

@@ -1,6 +1,10 @@
 const handlers = require('./handlers');
 
-async function routeApi({ method, pathname, authHeader, body, query = {} }) {
+async function routeApi({ method, pathname, authHeader, body, query = {}, headers = {} }) {
+  if (pathname === '/api/telegram/webhook' && method === 'POST') {
+    const secretHeader = headers['x-telegram-bot-api-secret-token'];
+    return handlers.handleTelegramWebhook(body, secretHeader);
+  }
   if (pathname === '/api/fabrics' && method === 'GET') {
     return handlers.handleFabricsList();
   }
