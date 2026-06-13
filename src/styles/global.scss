@@ -5,11 +5,12 @@
   --app-error: oklch(0.48 0.14 25);
   --app-radius-xs: 6px;
   --app-accent-muted: color-mix(in oklch, var(--app-accent) 14%, transparent);
-  --app-focus-ring: color-mix(in oklch, var(--app-accent) 45%, transparent);
+  --app-accent-emphasis: color-mix(in oklch, var(--app-accent) 58%, var(--tg-theme-text-color, #1a1a1a));
+  --app-focus-ring: color-mix(in oklch, var(--app-accent) 72%, var(--tg-theme-text-color, #1a1a1a));
   --app-surface: var(--tg-theme-bg-color, #fff);
   --app-surface-2: var(--tg-theme-secondary-bg-color, #f5f5f5);
   --app-text: var(--tg-theme-text-color, #1a1a1a);
-  --app-text-hint: var(--tg-theme-hint-color, #6b7280);
+  --app-text-hint: color-mix(in oklch, var(--tg-theme-text-color, #1a1a1a) 52%, var(--tg-theme-hint-color, #6b7280));
   --app-border: color-mix(in oklch, var(--tg-theme-hint-color, #999) 22%, transparent);
   --app-radius: 14px;
   --app-radius-sm: 10px;

@@ -114,16 +114,20 @@ export const HomePage: FC = () => {
 
         <div className={home.heroActions}>
           <Link
-            to="/fabrics"
+            to="/order"
             className={classNames(btn.btn, btn.btnPrimary, home.heroBtnPrimary)}
           >
-            Каталог тканей
+            Оставить заявку
           </Link>
           <Link
-            to="/order"
-            className={classNames(btn.btn, btn.btnSecondary, home.heroBtnSecondary)}
+            to="/fabrics"
+            className={classNames(
+              btn.btn,
+              btn.btnSecondaryOutlined,
+              home.heroBtnSecondary,
+            )}
           >
-            Оставить заявку
+            Каталог тканей
           </Link>
           {masterContactAvailable && (
             <button
@@ -244,12 +248,6 @@ export const HomePage: FC = () => {
           <p className={section.sectionLead}>
             Пришлите фото мебели — мастер оценит работу и подскажет по тканям.
           </p>
-          <Link
-            to="/order"
-            className={classNames(btn.btn, btn.btnPrimary, section.sectionCtaBtn)}
-          >
-            Оставить заявку
-          </Link>
         </section>
       </div>
     </Page>

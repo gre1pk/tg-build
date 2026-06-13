@@ -35,7 +35,7 @@
   padding: var(--app-space-xs) var(--app-space-sm);
   border-radius: var(--app-radius-xs);
   background: var(--app-accent-muted);
-  color: var(--app-accent);
+  color: var(--app-accent-emphasis);
 }
 
 .portfolioStack {
@@ -49,11 +49,8 @@
   margin: 0;
   padding: 0;
   display: grid;
+  grid-template-columns: 1fr;
   gap: var(--app-space-sm);
-
-  @media (min-width: 420px) {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 .heroTitle {
@@ -68,7 +65,7 @@
   font-size: 0.9375rem;
   line-height: 1.5;
   margin: 0;
-  color: var(--tg-theme-hint-color, #6b7280);
+  color: var(--app-text-hint);
   max-width: 34ch;
 }
 
@@ -89,11 +86,6 @@
   min-height: 44px;
   padding: 11px 20px;
   font-size: 0.9375rem;
-  font-weight: 600;
-  background: var(--app-surface-2);
-  color: var(--app-button-bg);
-  border: 1.5px solid color-mix(in oklch, var(--app-button-bg) 35%, var(--app-border));
-  box-shadow: 0 1px 2px color-mix(in oklch, var(--app-button-bg) 8%, transparent);
 }
 
 .heroContactLink {
@@ -140,7 +132,7 @@
   font-size: 0.8125rem;
   font-weight: 700;
   background: var(--app-accent-muted);
-  color: var(--app-accent);
+  color: var(--app-accent-emphasis);
 }
 
 .stepText {

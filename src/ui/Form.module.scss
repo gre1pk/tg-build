@@ -28,7 +28,7 @@
 .fabricLabel {
   margin: 0 0 2px;
   font-size: 0.75rem;
-  color: var(--tg-theme-hint-color, #6b7280);
+  color: var(--app-text-hint);
 }
 
 .fabricName {
@@ -54,7 +54,7 @@
   margin: 0 0 var(--app-space-xs);
   font-size: 0.8125rem;
   line-height: 1.4;
-  color: var(--tg-theme-hint-color, #6b7280);
+  color: var(--app-text-hint);
 }
 
 .fieldError {
@@ -136,7 +136,7 @@
 
 .photoUploadMeta {
   font-size: 0.75rem;
-  color: var(--tg-theme-hint-color, #6b7280);
+  color: var(--app-text-hint);
 }
 
 .photoUploadInput {
